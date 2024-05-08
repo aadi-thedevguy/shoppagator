@@ -32,7 +32,6 @@ export const Users: CollectionConfig = {
   },
   admin: {
     hidden: ({ user }) => user.role !== "admin",
-    // defaultColumns: ["email"],
   },
   fields: [
     {

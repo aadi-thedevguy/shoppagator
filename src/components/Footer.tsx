@@ -66,17 +66,17 @@ const Footer = () => {
           <div className='mt-4 flex items-center justify-center md:mt-0'>
             <div className='flex space-x-8'>
               <Link
-                href='#'
+                href='/tos'
                 className='text-sm text-muted-foreground hover:text-gray-600'>
                 Terms
               </Link>
               <Link
-                href='#'
+                href='/privacy-policy'
                 className='text-sm text-muted-foreground hover:text-gray-600'>
                 Privacy Policy
               </Link>
               <Link
-                href='#'
+                href='/cookie'
                 className='text-sm text-muted-foreground hover:text-gray-600'>
                 Cookie Policy
               </Link>

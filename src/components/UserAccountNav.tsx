@@ -21,7 +21,7 @@ const UserAccountNav = ({ user }: { user: User }) => {
       <DropdownMenuTrigger asChild className="overflow-visible">
         <Button variant="ghost" size="sm" className="relative gap-2">
           <span>My account</span>
-          <UserRoundCheck className="text-sm" />
+          <UserRoundCheck size={14} />
         </Button>
       </DropdownMenuTrigger>
 
@@ -37,7 +37,7 @@ const UserAccountNav = ({ user }: { user: User }) => {
         <DropdownMenuItem asChild>
           <Link href="/sell" className="flex items-center gap-2">
             <span>Seller Dashboard</span>
-            <BarChart className="text-sm" />
+            <BarChart size={14} />
           </Link>
         </DropdownMenuItem>
 
@@ -46,7 +46,7 @@ const UserAccountNav = ({ user }: { user: User }) => {
           className="cursor-pointer flex items-center gap-2"
         >
           <span>Log out</span>
-          <LogOut className="text-sm" />
+          <LogOut size={14} />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

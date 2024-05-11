@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -18,12 +18,15 @@ import { trpc } from "@/trpc/client";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 const Page = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const isSeller = searchParams.get("as") === "seller";
   const origin = searchParams.get("origin");
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const continueAsSeller = () => {
     router.push("?as=seller");
@@ -113,20 +116,50 @@ const Page = () => {
 
                 <div className="grid gap-1 py-2">
                   <Label htmlFor="password">Password</Label>
-                  <Input
-                    {...register("password")}
-                    type="password"
-                    className={cn({
-                      "focus-visible:ring-red-500": errors.password,
-                    })}
-                    placeholder="Password"
-                  />
+                  <div className="relative">
+                    <Input
+                      {...register("password")}
+                      type={showPassword ? "text" : "password"}
+                      className={cn({
+                        "focus-visible:ring-red-500": errors.password,
+                      })}
+                      placeholder="Password"
+                    />
+                    <div
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOffIcon className="h-5 w-5" />
+                      ) : (
+                        <EyeIcon className="h-5 w-5" />
+                      )}
+                    </div>
+                    {errors?.password && (
+                      <p className="text-sm text-red-500">
+                        {errors.password.message}
+                      </p>
+                    )}
+                  </div>
                   {errors?.password && (
                     <p className="text-sm text-red-500">
                       {errors.password.message}
                     </p>
                   )}
                 </div>
+
+                <Link
+                  className={cn(
+                    buttonVariants({
+                      variant: "link",
+                      className: "gap-1.5",
+                    }),
+                    "text-blue-400"
+                  )}
+                  href="/forgot-password"
+                >
+                  Forgot Password ?
+                </Link>
 
                 <Button disabled={isLoading}>
                   {isLoading && (

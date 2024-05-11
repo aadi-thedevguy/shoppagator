@@ -1,4 +1,5 @@
 import { PrimaryActionEmailHtml } from "../components/emails/PrimaryActionEmail";
+import { ResetEmailHtml } from "../components/emails/ResetMail";
 import { Access, CollectionConfig } from "payload/types";
 
 const adminsAndUser: Access = ({ req: { user } }) => {
@@ -20,6 +21,15 @@ export const Users: CollectionConfig = {
           actionLabel: "verify your account",
           buttonText: "Verify Account",
           href: `${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}`,
+        });
+      },
+    },
+    forgotPassword: {
+      // @ts-ignore
+      generateEmailHTML: ({ token, user }) => {
+        return ResetEmailHtml({
+          username: user.email.split("@")[0],
+          href: `${process.env.NEXT_PUBLIC_SERVER_URL}/reset-password?token=${token}`,
         });
       },
     },

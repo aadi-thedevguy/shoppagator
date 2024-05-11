@@ -32,10 +32,10 @@ export const EmailTemplate = ({
       <Body style={main}>
         <Container style={container}>
           <Img
-            src={`${process.env.NEXT_PUBLIC_SERVER_URL}/alligator-email-sent.png`}
+            src="https://firebasestorage.googleapis.com/v0/b/portfolio-52b82.appspot.com/o/alligator-preview.png?alt=media&token=bd58aa6c-5bb3-4dca-83bb-1084c4db96f1"
             width="150"
             height="150"
-            alt="Shopaggator"
+            alt="Shopaggator Mascot"
             style={logo}
           />
           <Text style={paragraph}>Hi there,</Text>
@@ -63,8 +63,9 @@ export const EmailTemplate = ({
   );
 };
 
-export const PrimaryActionEmailHtml = (props: EmailTemplateProps) =>
-  render(<EmailTemplate {...props} />, { pretty: true });
+export const PrimaryActionEmailHtml = (props: EmailTemplateProps) => {
+  return render(<EmailTemplate {...props} />, { pretty: true });
+};
 
 const main = {
   backgroundColor: "#ffffff",

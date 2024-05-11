@@ -13,6 +13,7 @@ export interface Config {
     media: Media;
     product_files: ProductFile;
     orders: Order;
+    reviews: Review;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -36,8 +37,6 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
-  _verified?: boolean | null;
-  _verificationToken?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password: string | null;
@@ -136,6 +135,20 @@ export interface Order {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: string;
+  rating: number;
+  comment: string;
+  order: string | Order;
+  user: string | User;
+  product: string | Product;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
@@ -174,15 +187,21 @@ export interface PayloadMigration {
  */
 export interface Policy {
   id: string;
-  privacy_policy: {
-    [k: string]: unknown;
-  }[];
-  terms_of_service: {
-    [k: string]: unknown;
-  }[];
-  cookie_policy: {
-    [k: string]: unknown;
-  }[];
+  privacy_policy?:
+    | {
+        [k: string]: unknown;
+      }[]
+    | null;
+  terms_of_service?:
+    | {
+        [k: string]: unknown;
+      }[]
+    | null;
+  cookie_policy?:
+    | {
+        [k: string]: unknown;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }

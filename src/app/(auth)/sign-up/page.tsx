@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, EyeIcon, EyeOffIcon } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -18,6 +18,7 @@ import { trpc } from "@/trpc/client";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const Page = () => {
   const {
@@ -29,7 +30,7 @@ const Page = () => {
   });
 
   const router = useRouter();
-
+  const [showPassword, setShowPassword] = useState(false);
   const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
     onError: (err) => {
       if (err.data?.code === "CONFLICT") {
@@ -99,14 +100,31 @@ const Page = () => {
 
                 <div className="grid gap-1 py-2">
                   <Label htmlFor="password">Password</Label>
-                  <Input
-                    {...register("password")}
-                    type="password"
-                    className={cn({
-                      "focus-visible:ring-red-500": errors.password,
-                    })}
-                    placeholder="Password"
-                  />
+                  <div className="relative">
+                    <Input
+                      {...register("password")}
+                      type={showPassword ? "text" : "password"}
+                      className={cn({
+                        "focus-visible:ring-red-500": errors.password,
+                      })}
+                      placeholder="Password"
+                    />
+                    <div
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOffIcon className="h-5 w-5" />
+                      ) : (
+                        <EyeIcon className="h-5 w-5" />
+                      )}
+                    </div>
+                    {errors?.password && (
+                      <p className="text-sm text-red-500">
+                        {errors.password.message}
+                      </p>
+                    )}
+                  </div>
                   {errors?.password && (
                     <p className="text-sm text-red-500">
                       {errors.password.message}

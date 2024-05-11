@@ -2,8 +2,8 @@ import React, { Fragment } from "react";
 import escapeHTML from "escape-html";
 import { Text } from "slate";
 
-export const serialize = (children) =>
-  children.map((node, i) => {
+export const serialize = (children: any) =>
+  children.map((node: any, i: number) => {
     if (Text.isText(node)) {
       let text = (
         <span dangerouslySetInnerHTML={{ __html: escapeHTML(node.text) }} />

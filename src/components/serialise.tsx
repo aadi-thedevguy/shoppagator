@@ -2,8 +2,21 @@ import React, { Fragment } from "react";
 import escapeHTML from "escape-html";
 import { Text } from "slate";
 
-export const serialize = (children: any) =>
-  children.map((node: any, i: number) => {
+type Children = Leaf[];
+
+type Leaf = {
+  type: string;
+  value?: {
+    url: string;
+    alt: string;
+  };
+  children?: Children;
+  url?: string;
+  [key: string]: unknown;
+};
+
+export const serialize = (children?: Children): React.ReactNode[] =>
+  children?.map((node, i) => {
     if (Text.isText(node)) {
       let text = (
         <span dangerouslySetInnerHTML={{ __html: escapeHTML(node.text) }} />
@@ -58,4 +71,4 @@ export const serialize = (children: any) =>
       default:
         return <p key={i}>{serialize(node.children)}</p>;
     }
-  });
+  }) || [];

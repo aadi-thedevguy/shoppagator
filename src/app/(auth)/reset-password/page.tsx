@@ -1,6 +1,6 @@
 "use client";
 
-import VerifyEmail from "@/components/VerifyEmail";
+// import VerifyEmail from "@/components/VerifyEmail";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,6 @@ import { trpc } from "@/trpc/client";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 import { useRouter } from "next/navigation";
-import { log } from "console";
 
 interface PageProps {
   searchParams: {
@@ -62,10 +61,13 @@ const Page = ({ searchParams }: PageProps) => {
     },
   });
 
-  const onSubmit = ({ token, password, confirmPassword }: TResetValidator) => {
-    console.log("done");
-
-    // mutate({ token, password, confirmPassword });
+  const onSubmit = (data: TResetValidator) => {
+    if (token) {
+      data.token = token as string;
+      mutate(data);
+    } else {
+      toast.error("Unable to Reset Password, Try Again Later");
+    }
   };
 
   return (
@@ -78,7 +80,7 @@ const Page = ({ searchParams }: PageProps) => {
 
           <div className="grid gap-6 mb-6">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="grid gap-4">
+              <div className="grid gap-2">
                 <div className="grid gap-2 py-2">
                   <Label htmlFor="password">New Password</Label>
                   <div className="relative">
@@ -107,6 +109,7 @@ const Page = ({ searchParams }: PageProps) => {
                     )}
                   </div>
                 </div>
+
                 <div className="grid gap-2 py-2">
                   <Label htmlFor="confirmPassword">Confirm Password</Label>
                   <div className="relative">
@@ -137,6 +140,7 @@ const Page = ({ searchParams }: PageProps) => {
                     )}
                   </div>
                 </div>
+
                 <Button type="submit" disabled={isLoading || isSubmitting}>
                   {isLoading && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

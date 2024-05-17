@@ -6,7 +6,7 @@ import {
 import { publicProcedure, router } from "./trpc";
 import { getPayloadClient } from "../get-payload";
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
+import { ZodError, z } from "zod";
 
 export const authRouter = router({
   createPayloadUser: publicProcedure
@@ -89,8 +89,10 @@ export const authRouter = router({
     .input(resetValidator)
     .mutation(async ({ input }) => {
       const { token, password } = input;
+      if (!token) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
       const payload = await getPayloadClient();
-
       await payload.resetPassword({
         collection: "users",
         data: {

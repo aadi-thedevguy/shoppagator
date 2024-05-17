@@ -16,7 +16,7 @@ import {
 } from "@/lib/validators/account-credentials-validator";
 import { trpc } from "@/trpc/client";
 import { toast } from "sonner";
-import { ZodError } from "zod";
+// import { ZodError } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -141,11 +141,6 @@ const Page = () => {
                       </p>
                     )}
                   </div>
-                  {errors?.password && (
-                    <p className="text-sm text-red-500">
-                      {errors.password.message}
-                    </p>
-                  )}
                 </div>
 
                 <Link

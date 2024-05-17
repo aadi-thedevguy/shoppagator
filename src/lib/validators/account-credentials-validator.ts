@@ -17,7 +17,7 @@ export const resetValidator = z
     confirmPassword: z.string().min(8, {
       message: "Password must be at least 8 characters long.",
     }),
-    token: z.string().min(8),
+    token: z.string().min(8).optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords must match.",

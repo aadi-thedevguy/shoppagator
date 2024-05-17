@@ -1,15 +1,21 @@
 "use client";
 
 import { PRODUCT_CATEGORIES } from "@/config";
-import { Menu, UserRoundCheck, UserRoundPlus, X } from "lucide-react";
+import { LogOut, Menu, UserRoundCheck, UserRoundPlus, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import { useAuth } from "@/hooks/use-auth";
+import { User } from "@/payload-types";
 
-const MobileNav = () => {
+type Props = {
+  user: User | null;
+};
+const MobileNav = ({ user }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
+  const { signOut } = useAuth();
   const pathname = usePathname();
 
   // whenever we click an item in the menu and navigate away, we want to close the menu
@@ -103,24 +109,39 @@ const MobileNav = () => {
 
             <div className="space-y-6 border-t border-gray-200 px-4 py-6">
               <div className="flow-root">
-                <Link
-                  onClick={() => closeOnCurrent("/sign-in")}
-                  href="/sign-in"
-                  className="-m-2 p-2 flex items-center gap-2 font-medium text-gray-900"
-                >
-                  <span>Sign in</span>
-                  <UserRoundCheck size={16} />
-                </Link>
-              </div>
-              <div className="flow-root">
-                <Link
-                  onClick={() => closeOnCurrent("/sign-up")}
-                  href="/sign-up"
-                  className="-m-2 flex items-center gap-2 p-2 font-medium text-gray-900"
-                >
-                  <span>Sign up</span>
-                  <UserRoundPlus size={16} />
-                </Link>
+                {!user ? (
+                  <Link
+                    onClick={() => closeOnCurrent("/sign-in")}
+                    href="/sign-in"
+                    className="-m-2 p-2 flex items-center gap-2 font-medium text-gray-900"
+                  >
+                    <span>Sign in</span>
+                    <UserRoundPlus size={16} />
+                  </Link>
+                ) : (
+                  <>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="-mx-2 p-2 flex items-center gap-2 font-medium text-gray-900"
+                      disabled
+                    >
+                      <span>{user.email.split("@")[0]}</span>
+                      <UserRoundCheck size={14} />
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      onClick={signOut}
+                      className="-m-2 p-2 mb-4 flex items-center gap-2 font-medium text-gray-900"
+                    >
+                      <span>Log out</span>
+                      <LogOut size={16} />
+                    </Button>
+
+                    <hr />
+                  </>
+                )}
               </div>
             </div>
           </div>

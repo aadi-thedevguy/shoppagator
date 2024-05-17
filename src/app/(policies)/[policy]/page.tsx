@@ -2,6 +2,7 @@ import { getPolicyPage } from "@/lib/queries.server";
 import React from "react";
 import { serialize } from "@/components/serialise";
 import { notFound } from "next/navigation";
+import { Children } from "@/components/serialise";
 
 async function Page({ params }: { params: { policy: string } }) {
   const data = await getPolicyPage(params.policy);
@@ -24,7 +25,7 @@ async function Page({ params }: { params: { policy: string } }) {
             key={i}
             className="my-4 prose max-w-[75ch] prose-sky lg:prose-lg"
           >
-            {serialize(el.children)}
+            {serialize(el.children as Children)}
           </article>
         ))}
     </section>

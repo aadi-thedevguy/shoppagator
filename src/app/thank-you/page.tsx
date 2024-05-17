@@ -54,8 +54,8 @@ const ThankYouPage = async ({ searchParams }: PageProps) => {
       <div className="hidden lg:block h-80 overflow-hidden lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12">
         <Image
           fill
-          src="/checkout-thank-you.jpg"
-          className="h-full w-full object-cover object-center"
+          src="/banner.jpg"
+          className="h-full w-full object-center"
           alt="thank you for your order"
         />
       </div>
@@ -90,7 +90,7 @@ const ThankYouPage = async ({ searchParams }: PageProps) => {
             )}
 
             <div className="mt-16 text-sm font-medium">
-              <div className="text-muted-foreground">Order nr.</div>
+              <div className="text-muted-foreground">Order no.</div>
               <div className="mt-2 text-gray-900">{order.id}</div>
 
               <ul className="mt-6 divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-muted-foreground">

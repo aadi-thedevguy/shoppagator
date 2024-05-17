@@ -1,5 +1,4 @@
 import express from "express";
-import { WebhookRequest } from "./server";
 import { stripe } from "./lib/stripe";
 import type Stripe from "stripe";
 import { getPayloadClient, transporter } from "./get-payload";
@@ -10,14 +9,11 @@ export const stripeWebhookHandler = async (
   req: express.Request,
   res: express.Response
 ) => {
-  const webhookRequest = req as any as WebhookRequest;
-  const body = webhookRequest.rawBody;
   const signature = req.headers["stripe-signature"] || "";
-
   let event;
   try {
     event = stripe.webhooks.constructEvent(
-      body,
+      req.body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET || ""
     );
@@ -92,8 +88,8 @@ export const stripeWebhookHandler = async (
       // });
       const options = {
         from: "Shopaggator <support@thedevguy.in>",
-        //   to: [user.email],
-        //   subject: "Thanks for your order! This is your receipt.",
+        to: [user.email],
+        subject: "Thanks for your order! This is your receipt.",
         html: ReceiptEmailHtml({
           date: new Date(),
           email: user.email,
@@ -108,5 +104,5 @@ export const stripeWebhookHandler = async (
     }
   }
 
-  return res.status(200).send();
+  return res.status(200).send({ recieved: true });
 };

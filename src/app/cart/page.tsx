@@ -12,13 +12,15 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Page = () => {
-  const { items, removeItem } = useCart();
+  const { items, removeItem, clearCart } = useCart();
 
   const router = useRouter();
 
   const { mutate: createCheckoutSession, isLoading } =
     trpc.payment.createSession.useMutation({
       onSuccess: ({ url }) => {
+        // clearing our cart if checkout is successful
+        clearCart();
         if (url) router.push(url);
       },
     });

@@ -44,7 +44,7 @@ const Page = ({ searchParams }: PageProps) => {
 
   const { mutate, isLoading } = trpc.auth.resetPassword.useMutation({
     onError: (err) => {
-      if (err.data?.code === "CONFLICT") {
+      if (err.data?.code === "UNAUTHORIZED") {
         toast.error(err.message);
         return;
       }

@@ -47,11 +47,13 @@ export async function getReviewStats(productId: string) {
   const payload = await getPayloadClient();
 
   const { docs: reviews } = await payload.find({
+    // TODO: pagination
     collection: "reviews",
     where: {
       product: {
         equals: productId,
       },
+      is_verified: { equals: true },
     },
   });
 
@@ -64,20 +66,20 @@ export async function getReviewStats(productId: string) {
   );
   const averageRating = totalRating / reviews.length;
 
-  // const ratingCounts: Record<string, number> = {
-  //   "1 star": 0,
-  //   "2 stars": 0,
-  //   "3 stars": 0,
-  //   "4 stars": 0,
-  //   "5 stars": 0,
-  // };
+  const ratingCounts: Record<string, number> = {
+    // n stars reviews : given by x people
+  };
 
-  // for (const review of reviews) {
-  //   ratingCounts[`${review.rating}`]++;
-  // }
+  for (const review of reviews) {
+    const rating = `${review.rating}`;
+    if (rating !== "0") {
+      ratingCounts[rating] = (ratingCounts[rating] || 0) + 1;
+    }
+  }
 
   return {
     averageRating,
-    // ratingCounts,
+    reviews,
+    ratingCounts,
   };
 }

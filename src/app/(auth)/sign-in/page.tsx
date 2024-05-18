@@ -26,6 +26,11 @@ const Page = () => {
   const isSeller = searchParams.get("as") === "seller";
   const origin = searchParams.get("origin");
 
+  // if came from write a review route
+  const review = searchParams.get("review");
+  const productId = searchParams.get("product");
+  const isReview = productId && review === "true";
+
   const [showPassword, setShowPassword] = useState(false);
 
   const continueAsSeller = () => {
@@ -49,6 +54,10 @@ const Page = () => {
       toast.success("Signed in successfully");
 
       router.refresh();
+
+      if (isReview) {
+        router.push(`/product/${productId}/write-review`);
+      }
 
       if (origin) {
         router.push(`/${origin}`);

@@ -37,6 +37,8 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  _verified?: boolean | null;
+  _verificationToken?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password: string | null;
@@ -139,9 +141,10 @@ export interface Order {
  */
 export interface Review {
   id: string;
+  is_verified?: boolean | null;
   rating: number;
   comment: string;
-  order: string | Order;
+  email: string;
   user: string | User;
   product: string | Product;
   updatedAt: string;

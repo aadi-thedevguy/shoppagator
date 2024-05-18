@@ -1,8 +1,9 @@
-import AddToCartButton from "@/components/AddToCartButton";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 import ImageSlider from "@/components/ImageSlider";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import ProductReel from "@/components/ProductReel";
-import Rating from "@/components/Reviews/Rating";
+import ProductReel from "@/components/product/ProductReel";
+import Rating from "@/components/review/Rating";
+import Reviews from "@/components/review/Reviews";
 import { PRODUCT_CATEGORIES } from "@/config";
 import { getProduct, getReviewStats } from "@/lib/queries.server";
 import { formatPrice } from "@/lib/utils";
@@ -28,7 +29,9 @@ const Page = async ({ params }: PageProps) => {
 
   if (!product) return notFound();
 
-  const { averageRating } = await getReviewStats(productId);
+  const { averageRating, reviews, ratingCounts } = await getReviewStats(
+    productId
+  );
 
   const label = PRODUCT_CATEGORIES.find(
     ({ value }) => value === product.category
@@ -39,7 +42,7 @@ const Page = async ({ params }: PageProps) => {
     .filter(Boolean) as string[];
 
   return (
-    <MaxWidthWrapper className="bg-white">
+    <MaxWidthWrapper>
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
           {/* Product Details */}
@@ -73,9 +76,9 @@ const Page = async ({ params }: PageProps) => {
               <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 {product.name}
               </h1>
-              <div className="text-red-500 mt-3 flex gap-1 items-center">
-                <Rating rating={0} />
-                <p className="text-primary-foreground mt-0">0</p>
+              <div className="mt-3 flex items-center">
+                <Rating rating={averageRating} />
+                <p>{reviews.length} Rating(s)</p>
               </div>
             </div>
 
@@ -136,6 +139,14 @@ const Page = async ({ params }: PageProps) => {
           </div>
         </div>
       </div>
+
+      {/* review grid */}
+      <Reviews
+        reviews={reviews}
+        productId={productId}
+        averageRating={averageRating}
+        ratingCounts={ratingCounts}
+      />
 
       <ProductReel
         href="/products"

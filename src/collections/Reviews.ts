@@ -20,6 +20,15 @@ export const Reviews: CollectionConfig = {
   },
   fields: [
     {
+      name: "is_verified",
+      type: "checkbox",
+      defaultValue: false,
+      access: {
+        read: ({ req }) => req.user.role === "admin",
+        update: ({ req }) => req.user.role === "admin",
+      },
+    },
+    {
       name: "rating",
       type: "number",
       required: true,
@@ -29,15 +38,21 @@ export const Reviews: CollectionConfig = {
     {
       name: "comment",
       type: "text",
-      maxLength: 50,
+      maxLength: 250,
       required: true,
     },
     {
-      name: "order",
-      type: "relationship",
-      relationTo: "orders",
+      name: "email",
+      type: "text",
       required: true,
+      maxLength: 30,
     },
+    // {
+    //   name: "order",
+    //   type: "relationship",
+    //   relationTo: "orders",
+    //   required: true,
+    // },
     {
       name: "user",
       type: "relationship",

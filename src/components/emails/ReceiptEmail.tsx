@@ -20,6 +20,8 @@ import {
 import * as React from "react";
 
 import { format } from "date-fns";
+import { serialize } from "v8";
+import { Children } from "../serialise";
 
 interface ReceiptEmailProps {
   email: string;
@@ -110,13 +112,21 @@ export const ReceiptEmail = ({
                 </Column>
                 <Column style={{ paddingLeft: "22px" }}>
                   <Text style={productTitle}>{product.name}</Text>
-                  {product.description ? (
+                  {product.description &&
+                    product.description.length &&
+                    product.description.map((el, i) => (
+                      <Text style={productDescription} key={i}>
+                        {serialize(el.children as Children)}
+                      </Text>
+                    ))}
+
+                  {/* {product.description ? (
                     <Text style={productDescription}>
                       {product.description.length > 50
                         ? product.description?.slice(0, 50) + "..."
                         : product.description}
                     </Text>
-                  ) : null}
+                  ) : null} */}
                   <Link
                     href={`${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${orderId}`}
                     style={productLink}

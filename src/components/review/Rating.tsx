@@ -6,6 +6,7 @@ type Props = {
 };
 
 const Rating: FC<Props> = ({ rating }) => {
+  if (!rating) rating = 0;
   const fullStars = Math.floor(rating);
   const decimalPart = rating - fullStars;
 

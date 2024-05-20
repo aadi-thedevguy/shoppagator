@@ -4,6 +4,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import ProductReel from "@/components/product/ProductReel";
 import Rating from "@/components/review/Rating";
 import Reviews from "@/components/review/Reviews";
+import { Children, serialize } from "@/components/serialise";
 import { PRODUCT_CATEGORIES } from "@/config";
 import { getProduct, getReviewStats } from "@/lib/queries.server";
 import { formatPrice } from "@/lib/utils";
@@ -95,7 +96,13 @@ const Page = async ({ params }: PageProps) => {
 
               <div className="mt-4 space-y-6">
                 <p className="text-base text-muted-foreground">
-                  {product.description}
+                  {product.description &&
+                    product.description.length &&
+                    product.description.map((el, i) => (
+                      <span key={i} className="my-4 prose prose-stone">
+                        {serialize(el.children as Children)}
+                      </span>
+                    ))}
                 </p>
               </div>
 
@@ -141,12 +148,14 @@ const Page = async ({ params }: PageProps) => {
       </div>
 
       {/* review grid */}
-      <Reviews
-        reviews={reviews}
-        productId={productId}
-        averageRating={averageRating}
-        ratingCounts={ratingCounts}
-      />
+      {reviews.length > 0 && (
+        <Reviews
+          reviews={reviews}
+          productId={productId}
+          averageRating={averageRating}
+          ratingCounts={ratingCounts}
+        />
+      )}
 
       <ProductReel
         href="/products"

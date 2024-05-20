@@ -33,7 +33,7 @@ const Reviews = async ({
           </h3>
           <div className="mt-3 flex px-4">
             <Rating rating={averageRating} />
-            <p className="font-medium">{averageRating} out of 5</p>
+            <p className="font-medium">{averageRating || 0} out of 5</p>
           </div>
           <p className="text-muted-foreground text-sm my-2 px-4">
             {reviews.length} people loved this product!

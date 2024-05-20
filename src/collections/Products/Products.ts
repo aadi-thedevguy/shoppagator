@@ -144,7 +144,7 @@ export const Products: CollectionConfig = {
     },
     {
       name: "description",
-      type: "textarea",
+      type: "richText",
       label: "Product details",
     },
     {
@@ -179,7 +179,7 @@ export const Products: CollectionConfig = {
         create: ({ req }) => req.user.role === "admin",
         read: ({ req }) => req.user.role === "admin",
         update: ({ req }) => req.user.role === "admin",
-      }, 
+      },
       options: [
         {
           label: "Pending verification",

@@ -57,7 +57,7 @@ const Reviews = async ({
             <Link
               href={
                 user?.id
-                  ? `/product/${productId}/write-review`
+                  ? `/write-review/${productId}`
                   : `/sign-in?review&product=${productId}`
               }
             >
@@ -76,7 +76,7 @@ const Reviews = async ({
                 <div className="font-semibold mb-2">
                   <p className="flex gap-2 items-center">
                     <UserCheck size={16} />
-                    <span>{review.email.split("@")[0]}</span>
+                    <span>{user?.email.split("@")[0]}</span>
                   </p>
                   <div className="ml-4 flex items-center text-primary text-lg">
                     <Rating rating={review.rating} />

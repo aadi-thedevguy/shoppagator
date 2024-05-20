@@ -42,17 +42,10 @@ export const Reviews: CollectionConfig = {
       required: true,
     },
     {
-      name: "email",
-      type: "text",
-      required: true,
-      maxLength: 30,
+      name: "order",
+      type: "relationship",
+      relationTo: "orders",
     },
-    // {
-    //   name: "order",
-    //   type: "relationship",
-    //   relationTo: "orders",
-    //   required: true,
-    // },
     {
       name: "user",
       type: "relationship",

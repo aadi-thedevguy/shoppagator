@@ -5,7 +5,7 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import { appRouter } from "./trpc";
 import { inferAsyncReturnType } from "@trpc/server";
 import { IncomingMessage } from "http";
-import { stripeWebhookHandler } from "./webhooks";
+import { stripeWebhookHandler } from "./stripe/webhooks";
 import nextBuild from "next/dist/build";
 import path from "path";
 import { PayloadRequest } from "payload/types";

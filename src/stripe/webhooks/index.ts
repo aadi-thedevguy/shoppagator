@@ -1,9 +1,9 @@
 import express from "express";
-import { stripe } from "./lib/stripe";
+import { stripe } from "../../lib/stripe";
 import type Stripe from "stripe";
-import { getPayloadClient, transporter } from "./get-payload";
-import { Product } from "./payload-types";
-import { ReceiptEmailHtml } from "./components/emails/ReceiptEmail";
+import { getPayloadClient, transporter } from "../../get-payload";
+import { Product } from "../../payload-types";
+import { ReceiptEmailHtml } from "../../components/emails/ReceiptEmail";
 
 export const stripeWebhookHandler = async (
   req: express.Request,

@@ -30,6 +30,9 @@ export interface User {
   products?: (string | Product)[] | null;
   product_files?: (string | ProductFile)[] | null;
   role: 'admin' | 'user';
+  name?: string | null;
+  stripeCustomerID?: string | null;
+  skipSync?: boolean | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -62,6 +65,11 @@ export interface Product {
     image: string | Media;
     id?: string | null;
   }[];
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: string | Media | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -80,6 +88,8 @@ export interface ProductFile {
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -96,6 +106,8 @@ export interface Media {
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
   sizes?: {
     thumbnail?: {
       url?: string | null;
@@ -144,7 +156,7 @@ export interface Review {
   is_verified?: boolean | null;
   rating: number;
   comment: string;
-  email: string;
+  order?: (string | null) | Order;
   user: string | User;
   product: string | Product;
   updatedAt: string;

@@ -1,6 +1,9 @@
-import { PrimaryActionEmailHtml } from "../components/emails/PrimaryActionEmail";
-import { ResetEmailHtml } from "../components/emails/ResetMail";
+import { PrimaryActionEmailHtml } from "../../components/emails/PrimaryActionEmail";
+import { ResetEmailHtml } from "../../components/emails/ResetMail";
 import { Access, CollectionConfig } from "payload/types";
+import { customerProxy } from "../endpoints/customer";
+import { CustomerSelect } from "./CustomerSelect";
+import { createStripeCustomer } from "./hooks/createStripeCustomer";
 
 const adminsAndUser: Access = ({ req: { user } }) => {
   if (user.role === "admin") return true;
@@ -33,6 +36,8 @@ export const Users: CollectionConfig = {
         });
       },
     },
+    maxLoginAttempts: 3,
+    lockTime: 3600 * 10,
   },
   access: {
     read: adminsAndUser,
@@ -40,9 +45,27 @@ export const Users: CollectionConfig = {
     update: ({ req }) => req.user.role === "admin",
     delete: ({ req }) => req.user.role === "admin",
   },
+  hooks: {
+    beforeChange: [createStripeCustomer],
+  },
   admin: {
+    useAsTitle: "name",
+    defaultColumns: ["name", "email"],
     hidden: ({ user }) => user.role !== "admin",
   },
+
+  endpoints: [
+    {
+      path: "/:teamID/customer",
+      method: "get",
+      handler: customerProxy,
+    },
+    {
+      path: "/:teamID/customer",
+      method: "patch",
+      handler: customerProxy,
+    },
+  ],
   fields: [
     {
       name: "products",
@@ -75,5 +98,34 @@ export const Users: CollectionConfig = {
         { label: "User", value: "user" },
       ],
     },
+    {
+      name: "name",
+      type: "text",
+    },
+    {
+      name: "stripeCustomerID",
+      label: "Stripe Customer",
+      type: "text",
+      access: {
+        read: ({ req: { user } }) => user.role === "admin",
+      },
+      admin: {
+        position: "sidebar",
+        components: {
+          Field: CustomerSelect,
+        },
+      },
+    },
+    {
+      name: "skipSync",
+      label: "Skip Sync",
+      type: "checkbox",
+      admin: {
+        position: "sidebar",
+        readOnly: true,
+        hidden: true,
+      },
+    },
   ],
+  timestamps: true,
 };

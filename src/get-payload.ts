@@ -9,11 +9,11 @@ dotenv.config({
 });
 
 export const transporter = nodemailer.createTransport({
-  host: "smtp.ionos.com",
+  host: process.env.SMTP_SERVER,
   secure: false,
   port: 587,
   auth: {
-    user: "support@thedevguy.in",
+    user: process.env.EMAIL_USER,
     // pass: process.env.RESEND_API_KEY,
     pass: process.env.EMAIL_PASSWORD,
   },

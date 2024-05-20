@@ -24,6 +24,7 @@ export const appRouter = router({
             equals: user,
           },
         },
+        depth: 3,
       });
       if (docs.length) {
         throw new TRPCError({
@@ -36,7 +37,6 @@ export const appRouter = router({
         await payload.create({
           collection: "reviews",
           data: {
-            email,
             user,
             product,
             comment,

@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import type { Payload } from "payload";
 import { Metadata } from "next";
 import { twMerge } from "tailwind-merge";
 
@@ -24,6 +25,34 @@ export function formatPrice(
     maximumFractionDigits: 2,
   }).format(numericPrice);
 }
+
+export const revalidate = async (args: {
+  collection: string;
+  slug: string;
+  payload: Payload;
+}): Promise<void> => {
+  const { collection, slug, payload } = args;
+
+  try {
+    const res = await fetch(
+      `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/next/revalidate?secret=${process.env.REVALIDATION_KEY}&collection=${collection}&slug=${slug}`
+    );
+
+    if (res.ok) {
+      payload.logger.info(
+        `Revalidated page '${slug}' in collection '${collection}'`
+      );
+    } else {
+      payload.logger.error(
+        `Error revalidating page '${slug}' in collection '${collection}': ${res}`
+      );
+    }
+  } catch (err: unknown) {
+    payload.logger.error(
+      `Error hitting revalidate route for page '${slug}' in collection '${collection}': ${err}`
+    );
+  }
+};
 
 export function constructMetadata({
   title = "Shopaggator - the marketplace for digital assets",

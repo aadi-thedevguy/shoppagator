@@ -56,7 +56,7 @@ const Page = () => {
       router.refresh();
 
       if (isReview) {
-        router.push(`/product/${productId}/write-review`);
+        return router.push(`/write-review/${productId}`);
       }
 
       if (origin) {

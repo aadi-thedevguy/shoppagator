@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
-import type { Payload } from "payload";
 import { Metadata } from "next";
+import { Payload } from "payload";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {

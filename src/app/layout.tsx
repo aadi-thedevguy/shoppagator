@@ -11,11 +11,11 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = constructMetadata();
 
 export default function RootLayout({
-  children,
   review,
+  children,
 }: {
-  children: React.ReactNode;
   review: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" className="h-full scroll-smooth">

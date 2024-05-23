@@ -33,7 +33,7 @@ const Reviews = async ({
           </h3>
           <div className="mt-3 flex px-4">
             <Rating rating={averageRating} />
-            <p className="font-medium">{averageRating || 0} out of 5</p>
+            <p className="font-medium">{averageRating} out of 5</p>
           </div>
           <p className="text-muted-foreground text-sm my-2 px-4">
             {reviews.length} people loved this product!
@@ -76,7 +76,7 @@ const Reviews = async ({
                 <div className="font-semibold mb-2">
                   <p className="flex gap-2 items-center">
                     <UserCheck size={16} />
-                    <span>{user?.email.split("@")[0]}</span>
+                    <span>{user?.name}</span>
                   </p>
                   <div className="ml-4 flex items-center text-primary text-lg">
                     <Rating rating={review.rating} />

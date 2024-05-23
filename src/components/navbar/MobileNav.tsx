@@ -126,7 +126,7 @@ const MobileNav = ({ user }: Props) => {
                       className="-mx-2 p-2 flex items-center gap-2 font-medium text-gray-900"
                       disabled
                     >
-                      <span>{user.email.split("@")[0]}</span>
+                      <span>{user.name}</span>
                       <UserRoundCheck size={14} />
                     </Button>
 

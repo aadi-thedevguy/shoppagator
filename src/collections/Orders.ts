@@ -31,9 +31,9 @@ export const Orders: CollectionConfig = {
         create: ({ req }) => req.user.role === "admin",
         read: ({ req }) => req.user.role === "admin",
       },
-      //   admin: {
-      //     hidden: true,
-      //   },
+      // admin: {
+      //   hidden: true,
+      // },
       required: true,
     },
     {

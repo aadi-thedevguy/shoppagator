@@ -1,6 +1,15 @@
 import { z } from "zod";
 
 export const AuthCredentialsValidator = z.object({
+  name: z
+    .string()
+    .toLowerCase()
+    .regex(/^[^@#$%^&*!~`|]+$/i, {
+      message: "Username shouldn't include characters like @,#,$ etc.",
+    })
+    .min(3)
+    .max(20, { message: "Username should not exceed 20 characters" })
+    .optional(),
   email: z.string().email(),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters long.",

@@ -67,6 +67,12 @@ const Footer = () => {
                 Terms of Service
               </Link>
               <Link
+                href="/contact-us"
+                className="text-sm text-muted-foreground hover:text-gray-600"
+              >
+                Contact Us
+              </Link>
+              <Link
                 href="/privacy-policy"
                 className="text-sm text-muted-foreground hover:text-gray-600"
               >

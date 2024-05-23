@@ -12,7 +12,7 @@ export const authRouter = router({
   createPayloadUser: publicProcedure
     .input(AuthCredentialsValidator)
     .mutation(async ({ input }) => {
-      const { email, password } = input;
+      const { name, email, password } = input;
       const payload = await getPayloadClient();
 
       // check if user already exists
@@ -27,11 +27,14 @@ export const authRouter = router({
 
       if (users.length !== 0) throw new TRPCError({ code: "CONFLICT" });
 
+      if (!name) throw new TRPCError({ code: "FORBIDDEN" });
+
       await payload.create({
         collection: "users",
         data: {
           email,
           password,
+          name,
           role: "user",
         },
       });

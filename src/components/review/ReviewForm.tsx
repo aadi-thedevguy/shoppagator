@@ -32,7 +32,7 @@ const ReviewForm = ({ user, product }: { user: User; product: string }) => {
     resolver: zodResolver(ReviewValidator),
   });
 
-  const { mutate, isLoading } = trpc.review.useMutation({
+  const { mutate, isLoading } = trpc.review.create.useMutation({
     onSuccess: () => {
       toast.success("Thank You for your valuable Review");
       router.replace("/products");

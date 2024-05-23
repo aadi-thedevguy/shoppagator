@@ -30,9 +30,7 @@ export interface User {
   products?: (string | Product)[] | null;
   product_files?: (string | ProductFile)[] | null;
   role: 'admin' | 'user';
-  name?: string | null;
-  stripeCustomerID?: string | null;
-  skipSync?: boolean | null;
+  name: string;
   updatedAt: string;
   createdAt: string;
   email: string;

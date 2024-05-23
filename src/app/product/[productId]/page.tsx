@@ -95,15 +95,13 @@ const Page = async ({ params }: PageProps) => {
               </div>
 
               <div className="mt-4 space-y-6">
-                <p className="text-base text-muted-foreground">
-                  {product.description &&
-                    product.description.length &&
-                    product.description.map((el, i) => (
-                      <span key={i} className="my-4 prose prose-stone">
-                        {serialize(el.children as Children)}
-                      </span>
-                    ))}
-                </p>
+                {product.description &&
+                  product.description.length &&
+                  product.description.map((el, i) => (
+                    <span key={i} className="my-4 prose prose-stone">
+                      {serialize(el.children as Children)}
+                    </span>
+                  ))}
               </div>
 
               <div className="mt-6 flex items-center">

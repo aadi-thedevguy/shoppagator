@@ -35,7 +35,10 @@ const Page = () => {
     onError: (err) => {
       if (err.data?.code === "CONFLICT") {
         toast.error("This email is already in use. Sign in instead?");
-
+        return;
+      }
+      if (err.data?.code === "FORBIDDEN") {
+        toast.error("Please Provide a name.");
         return;
       }
 
@@ -53,8 +56,8 @@ const Page = () => {
     },
   });
 
-  const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
-    mutate({ email, password });
+  const onSubmit = ({ name, email, password }: TAuthCredentialsValidator) => {
+    mutate({ name, email, password });
   };
 
   return (
@@ -82,6 +85,21 @@ const Page = () => {
           <div className="grid gap-6">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid gap-2">
+                <div className="grid gap-1 py-2">
+                  <Label htmlFor="name">Your Name</Label>
+                  <Input
+                    {...register("name")}
+                    className={cn({
+                      "focus-visible:ring-red-500": errors.name,
+                    })}
+                    placeholder="John Doe"
+                  />
+                  {errors?.email && (
+                    <p className="text-sm text-red-500">
+                      {errors?.name?.message}
+                    </p>
+                  )}
+                </div>
                 <div className="grid gap-1 py-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -119,11 +137,6 @@ const Page = () => {
                         <EyeIcon className="h-5 w-5" />
                       )}
                     </div>
-                    {errors?.password && (
-                      <p className="text-sm text-red-500">
-                        {errors.password.message}
-                      </p>
-                    )}
                   </div>
                   {errors?.password && (
                     <p className="text-sm text-red-500">
@@ -132,7 +145,7 @@ const Page = () => {
                   )}
                 </div>
 
-                <Button>Sign up</Button>
+                <Button disabled={isLoading}>Sign up</Button>
               </div>
             </form>
           </div>

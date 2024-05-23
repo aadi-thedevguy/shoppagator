@@ -20,8 +20,7 @@ import {
 import * as React from "react";
 
 import { format } from "date-fns";
-import { serialize } from "v8";
-import { Children } from "../serialise";
+import { Children, serialize } from "../serialise";
 
 interface ReceiptEmailProps {
   email: string;
@@ -119,7 +118,6 @@ export const ReceiptEmail = ({
                         {serialize(el.children as Children)}
                       </Text>
                     ))}
-
                   {/* {product.description ? (
                     <Text style={productDescription}>
                       {product.description.length > 50

@@ -40,7 +40,7 @@ const FeedbackEmail = ({ feedback, username, email }: Props) => {
 
           <Section style={{ paddingBottom: "20px" }}>
             <Row>
-              <Text style={heading}>Here's what {username} wrote</Text>
+              <Text style={heading}>Here&apos;s what {username} wrote</Text>
               <Text style={review}>{feedback}</Text>
               <Text style={{ ...paragraph, paddingBottom: "16px" }}>
                 you can reply to the feedback by mailing back to{" "}

@@ -1,33 +1,28 @@
-version: '3'
-
+version: "3.8"
 services:
-  # payload:
-  #   image: node:18-alpine
+  # caddy:
+  #   image: caddy:2-alpine
   #   ports:
-  #     - '3000:3000'
+  #     - "80:80"
+  #     - "443:443"
   #   volumes:
-  #     - .:/home/node/app
-  #     - node_modules:/home/node/app/node_modules
-  #   working_dir: /home/node/app/
-  #   command: sh -c "yarn install && yarn dev"
-  #   depends_on:
-  #     - mongo
+  #     - caddy_data:/data
+  #     - caddy_config:/config
+  #   restart: unless-stopped
   #   environment:
-  #     DATABASE_URI: mongodb://mongo:27017/payload
-  #     PORT: 3000
-  #     NODE_ENV: development
-  #     PAYLOAD_SECRET: TESTING
+  #     - ACME_AGREE=true
+    # labels:
+    #   caddy: example.com
+    #   caddy.reverse_proxy: "{{upstreams 3000}}"
 
-  mongo:
-    image: mongo:latest
+  server:
+    restart: always
+    build: .
     ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
-    volumes:
-      - data:/data/db
-    logging:
-      driver: none
+      - 3000:3000
+    env_file:
+      - ./.env
 
-volumes:
-  data: # node_modules:
+# volumes:
+#   caddy_data:
+#   caddy_config:

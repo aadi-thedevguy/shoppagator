@@ -44,6 +44,7 @@ export const Media: CollectionConfig = {
   upload: {
     staticURL: "/media",
     staticDir: "media",
+    disableLocalStorage: true,
     imageSizes: [
       {
         name: "thumbnail",

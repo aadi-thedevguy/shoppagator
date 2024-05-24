@@ -29,8 +29,8 @@ const ResetEmail = ({ username, href }: Props) => {
         <Container style={container}>
           <Img
             src="https://firebasestorage.googleapis.com/v0/b/portfolio-52b82.appspot.com/o/alligator-preview.png?alt=media&token=bd58aa6c-5bb3-4dca-83bb-1084c4db96f1"
-            width="40"
-            height="33"
+            width="80"
+            height="80"
             alt="Shopaggator Mascot"
           />
           <Section>

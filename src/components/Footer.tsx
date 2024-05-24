@@ -4,10 +4,12 @@ import { usePathname } from "next/navigation";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Icons } from "./Icons";
 import Link from "next/link";
+import { string } from "zod";
 
 const Footer = () => {
   const pathname = usePathname();
-  const pathsToDisplay = ["/products", "/", "/cookie", "/tos"];
+  // const pathsToDisplay = ["/products", "/", "/cookie", "/tos"];
+  const pathsToDisplay: string[] = [];
 
   return (
     <footer className="bg-white flex-grow-0">

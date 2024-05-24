@@ -1,7 +1,7 @@
 import express from "express";
 import { stripe } from "./lib/stripe";
 import type Stripe from "stripe";
-import { getPayloadClient, transporter } from "./get-payload";
+import { getPayloadClient } from "./get-payload";
 import { Product } from "./payload-types";
 import { ReceiptEmailHtml } from "./components/emails/ReceiptEmail";
 
@@ -87,7 +87,7 @@ export const stripeWebhookHandler = async (
       //   }),
       // });
       const options = {
-        from: "Shopaggator <support@thedevguy.in>",
+        from: `Shopaggator <${process.env.SUPPORT_EMAIL}>`,
         to: [user.email],
         subject: "Thanks for your order! This is your receipt.",
         html: ReceiptEmailHtml({
@@ -97,7 +97,7 @@ export const stripeWebhookHandler = async (
           products: order.products as Product[],
         }),
       };
-      const data = await transporter.sendMail(options);
+      const data = await payload.sendEmail(options);
       res.status(200).json({ data });
     } catch (error) {
       res.status(500).json({ error });

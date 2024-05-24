@@ -30,7 +30,7 @@ export default buildConfig({
     meta: {
       titleSuffix: "- Shopaggator",
       favicon: "/favicon.ico",
-      ogImage: "/thumbnail.jpg",
+      ogImage: "/thumbnail.jpeg",
     },
   },
   rateLimit: {

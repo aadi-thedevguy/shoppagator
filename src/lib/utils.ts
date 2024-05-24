@@ -57,7 +57,7 @@ export const revalidate = async (args: {
 export function constructMetadata({
   title = "Shopaggator - the marketplace for digital assets",
   description = "Shopaggator is an open-source marketplace for high-quality digital goods.",
-  image = "/thumbnail.png",
+  image = "/thumbnail.jpeg",
   icons = "/favicon.ico",
   noIndex = false,
 }: {

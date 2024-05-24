@@ -158,7 +158,6 @@ export interface Review {
   is_verified?: boolean | null;
   rating: number;
   comment: string;
-  order?: (string | null) | Order;
   user: string | User;
   product: string | Product;
   updatedAt: string;

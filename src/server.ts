@@ -4,7 +4,6 @@ import { nextApp, nextHandler } from "./next-utils";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import { appRouter } from "./trpc";
 import { inferAsyncReturnType } from "@trpc/server";
-import { IncomingMessage } from "http";
 import { stripeWebhookHandler } from "./webhooks";
 import nextBuild from "next/dist/build";
 import path from "path";
@@ -24,20 +23,12 @@ const createContext = ({
 
 export type ExpressContext = inferAsyncReturnType<typeof createContext>;
 
-export type WebhookRequest = IncomingMessage & {
-  rawBody: Buffer;
-};
-
 const start = async () => {
   app.post(
     "/api/webhooks/stripe",
     express.raw({ type: "application/json" }),
     stripeWebhookHandler
   );
-
-  app.get("/api/hello", (req, res) => {
-    res.status(200).send("hello");
-  });
 
   const payload = await getPayloadClient({
     initOptions: {

@@ -9,9 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
-import { BarChart, LogOut, UserRoundCheck } from "lucide-react";
+import { LogOut, UserRoundCheck } from "lucide-react";
 
 const UserAccountNav = ({ user }: { user: User }) => {
   const { signOut } = useAuth();
@@ -34,12 +33,12 @@ const UserAccountNav = ({ user }: { user: User }) => {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem asChild>
+        {/* <DropdownMenuItem asChild>
           <Link href="/sell" className="flex items-center gap-2">
             <span>Seller Dashboard</span>
             <BarChart size={14} />
           </Link>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
 
         <DropdownMenuItem
           onClick={signOut}

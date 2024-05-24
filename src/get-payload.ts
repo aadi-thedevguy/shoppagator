@@ -8,13 +8,12 @@ dotenv.config({
   path: path.resolve(__dirname, "../.env"),
 });
 
-export const transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
   host: process.env.SMTP_SERVER,
   secure: false,
   port: 587,
   auth: {
-    user: process.env.EMAIL_USER,
-    // pass: process.env.RESEND_API_KEY,
+    user: process.env.SUPPORT_EMAIL,
     pass: process.env.EMAIL_PASSWORD,
   },
 });
@@ -47,7 +46,7 @@ export const getPayloadClient = async ({
     cached.promise = payload.init({
       email: {
         transport: transporter,
-        fromAddress: "support@thedevguy.in",
+        fromAddress: process.env.SUPPORT_EMAIL!,
         fromName: "Shopaggator",
       },
       secret: process.env.PAYLOAD_SECRET,

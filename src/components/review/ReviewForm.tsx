@@ -27,6 +27,7 @@ const ReviewForm = ({ user, product }: { user: User; product: string }) => {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TReviewValidator>({
     resolver: zodResolver(ReviewValidator),
@@ -35,17 +36,17 @@ const ReviewForm = ({ user, product }: { user: User; product: string }) => {
   const { mutate, isLoading } = trpc.review.create.useMutation({
     onSuccess: () => {
       toast.success("Thank You for your valuable Review");
-      router.replace("/products");
+      reset();
+      router.refresh();
+      router.push("/products");
     },
     onError: (err) => {
-      if (err.data?.code === "CONFLICT") {
-        toast.error(err.message);
-      }
-
       if (err instanceof ZodError) {
         toast.error(err.issues[0].message);
       }
-      if (err instanceof Error) {
+      if (err.data?.code === "CONFLICT") {
+        toast.error(err.message);
+      } else if (err instanceof Error) {
         toast.error(err.message);
       }
     },

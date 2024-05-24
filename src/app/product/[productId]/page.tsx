@@ -146,14 +146,12 @@ const Page = async ({ params }: PageProps) => {
       </div>
 
       {/* review grid */}
-      {reviews.length > 0 && (
-        <Reviews
-          reviews={reviews}
-          productId={productId}
-          averageRating={averageRating}
-          ratingCounts={ratingCounts}
-        />
-      )}
+      <Reviews
+        reviews={reviews}
+        productId={productId}
+        averageRating={averageRating}
+        ratingCounts={ratingCounts}
+      />
 
       <ProductReel
         href="/products"

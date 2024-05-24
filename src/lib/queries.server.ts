@@ -64,7 +64,7 @@ export async function getReviewStats(productId: string) {
     (total, review) => total + review.rating,
     0
   );
-  const averageRating = totalRating / reviews.length;
+  const averageRating = totalRating / reviews.length || 0;
 
   const ratingCounts: Record<string, number> = {
     // n stars reviews : given by x people

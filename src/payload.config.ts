@@ -19,17 +19,18 @@ dotenv.config({
   path: path.resolve(__dirname, "../.env"),
 });
 
-const adapter = s3Adapter({
-  config: {
-    endpoint: process.env.S3_ENDPOINT!,
-    credentials: {
-      accessKeyId: process.env.S3_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+const adapter = (isProduct?: boolean) => {
+  return s3Adapter({
+    config: {
+      credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+      },
+      region: process.env.S3_REGION!,
     },
-    region: process.env.S3_REGION!,
-  },
-  bucket: process.env.S3_BUCKET!,
-});
+    bucket: isProduct ? "shoppagator-product-files" : "shoppagator-media",
+  });
+};
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || "",
@@ -77,10 +78,10 @@ export default buildConfig({
     cloudStorage({
       collections: {
         media: {
-          adapter,
+          adapter: adapter(),
         },
         product_files: {
-          adapter,
+          adapter: adapter(true),
         },
       },
     }),

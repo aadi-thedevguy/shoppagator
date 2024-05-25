@@ -21,6 +21,7 @@ export const reviewRouter = router({
             equals: user,
           },
         },
+        sort: "desc",
       });
 
       if (existingReviews.length > 0) {

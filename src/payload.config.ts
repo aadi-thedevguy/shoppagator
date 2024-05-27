@@ -19,7 +19,11 @@ dotenv.config({
   path: path.resolve(__dirname, "../.env"),
 });
 
-const adapter = (isProduct?: boolean) => {
+function adapter(isProduct?: boolean) {
+  let bucketName = "shoppagator-test";
+  if (process.env.NODE_ENV === "production") {
+    bucketName = isProduct ? "shoppagator-product-files" : "shoppagator-media";
+  }
   return s3Adapter({
     config: {
       credentials: {
@@ -28,9 +32,9 @@ const adapter = (isProduct?: boolean) => {
       },
       region: process.env.S3_REGION!,
     },
-    bucket: isProduct ? "shoppagator-product-files" : "shoppagator-media",
+    bucket: bucketName,
   });
-};
+}
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || "",

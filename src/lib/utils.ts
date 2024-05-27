@@ -14,7 +14,7 @@ export function formatPrice(
     notation?: Intl.NumberFormatOptions["notation"];
   } = {}
 ) {
-  const { currency = "INR", notation = "compact" } = options;
+  const { currency = "USD", notation = "compact" } = options;
 
   const numericPrice = typeof price === "string" ? parseFloat(price) : price;
 
@@ -57,7 +57,7 @@ export const revalidate = async (args: {
 export function constructMetadata({
   title = "Shopaggator - the marketplace for digital assets",
   description = "Shopaggator is an open-source marketplace for high-quality digital goods.",
-  image = "/thumbnail.jpeg",
+  image = "/thumbnail.jpg",
   icons = "/favicon.ico",
   noIndex = false,
 }: {
@@ -87,7 +87,7 @@ export function constructMetadata({
       creator: "@thedevguy.in",
     },
     icons,
-    metadataBase: new URL("https://digitalhippo.up.railway.app"),
+    metadataBase: new URL("https://shoppagator.thedevguy.in"),
     ...(noIndex && {
       robots: {
         index: false,

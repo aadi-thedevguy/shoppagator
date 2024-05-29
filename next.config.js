@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+// next.config.js
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -6,10 +8,10 @@ const nextConfig = {
         protocol: "http",
         hostname: "localhost",
       },
-      // {
-      //   protocol: "https",
-      //   hostname: "digitalalligator-production.up.railway.app",
-      // },
+      {
+        protocol: "https",
+        hostname: "shoppagator.thedevguy.in",
+      },
     ],
   },
 };

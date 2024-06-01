@@ -37,7 +37,7 @@ const Reviews = async ({
           </div>
           <p className="text-muted-foreground text-sm my-2 px-4">
             {reviews.length > 0
-              ? "people loved this product"
+              ? reviews.length + " people loved this product"
               : "No Reviews Yet"}
           </p>
           {reviews.length > 0 && (

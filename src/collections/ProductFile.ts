@@ -42,10 +42,14 @@ const yourOwnAndPurchased: Access = async ({ req }) => {
           return req.payload.logger.error(
             "Search depth not sufficient to find purchased file IDs"
           );
+        if (Array.isArray(product.product_files)) {
+          // Handle the case where product_files is an array
+          return product.product_files;
+        }
 
-        return typeof product.product_files === "string"
-          ? product.product_files
-          : product.product_files.id;
+        // return typeof product.product_files === "string"
+        //   ? product.product_files
+        //   : product.product_files.id;
       });
     })
     .filter(Boolean)

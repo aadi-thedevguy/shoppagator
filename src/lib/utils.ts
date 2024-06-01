@@ -14,7 +14,7 @@ export function formatPrice(
     notation?: Intl.NumberFormatOptions["notation"];
   } = {}
 ) {
-  const { currency = "USD", notation = "compact" } = options;
+  const { currency = "INR", notation = "compact" } = options;
 
   const numericPrice = typeof price === "string" ? parseFloat(price) : price;
 

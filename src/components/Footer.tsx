@@ -61,7 +61,7 @@ const Footer = () => {
           </div>
 
           <div className="mt-4 flex items-center justify-center md:mt-0">
-            <div className="flex space-x-8">
+            <div className="flex flex-col gap-4 justify-center sm:flex-row sm:space-x-8">
               <Link
                 href="/tos"
                 className="text-sm text-muted-foreground hover:text-gray-600"

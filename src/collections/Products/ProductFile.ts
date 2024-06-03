@@ -1,11 +1,6 @@
-import { User } from "../payload-types";
-import { BeforeChangeHook } from "payload/dist/collections/config/types";
+import { User } from "../../payload-types";
 import { Access, CollectionConfig } from "payload/types";
-
-const addUser: BeforeChangeHook = ({ req, data }) => {
-  const user = req.user as User | null;
-  return { ...data, user: user?.id };
-};
+import { addUser, syncProduct } from "./hooks";
 
 const yourOwnAndPurchased: Access = async ({ req }) => {
   const user = req.user as User | null;
@@ -69,6 +64,7 @@ export const ProductFiles: CollectionConfig = {
   },
   hooks: {
     beforeChange: [addUser],
+    beforeDelete: [syncProduct],
   },
   access: {
     read: yourOwnAndPurchased,
@@ -76,10 +72,15 @@ export const ProductFiles: CollectionConfig = {
     delete: ({ req }) => req.user.role === "admin",
   },
   upload: {
-    staticURL: "/product_files",
-    staticDir: "product_files",
+    // staticURL: "/product_files",
+    // staticDir: "product_files",
     disableLocalStorage: true,
-    mimeTypes: ["image/*", "font/*", "application/postscript"],
+    mimeTypes: [
+      "image/*",
+      "application/x-zip-compressed",
+      "application/vnd.ms-excel",
+      "application/pdf",
+    ],
   },
   fields: [
     {

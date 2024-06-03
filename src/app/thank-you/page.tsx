@@ -3,36 +3,29 @@ import Image from "next/image";
 import { cookies } from "next/headers";
 import { getPayloadClient } from "@/get-payload";
 import { notFound, redirect } from "next/navigation";
-import { Product, ProductFile, User } from "@/payload-types";
+import { Product, User } from "@/payload-types";
 import { PRODUCT_CATEGORIES } from "@/config";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import PaymentStatus from "@/components/PaymentStatus";
+import { buttonVariants } from "@/components/ui/button";
+import { DownloadIcon } from "lucide-react";
+import { getOrder } from "@/lib/queries.server";
 
 interface PageProps {
   searchParams: {
-    [key: string]: string | string[] | undefined;
+    [key: string]: string;
   };
 }
 
 const ThankYouPage = async ({ searchParams }: PageProps) => {
   const orderId = searchParams.orderId;
   const nextCookies = cookies();
+  if (!orderId) return notFound();
 
   const { user } = await getServerSideUser(nextCookies);
-  const payload = await getPayloadClient();
 
-  const { docs: orders } = await payload.find({
-    collection: "orders",
-    depth: 2,
-    where: {
-      id: {
-        equals: orderId,
-      },
-    },
-  });
-
-  const [order] = orders;
+  const order = await getOrder(orderId);
 
   if (!order) return notFound();
 
@@ -99,8 +92,7 @@ const ThankYouPage = async ({ searchParams }: PageProps) => {
                     ({ value }) => value === product.category
                   )?.label;
 
-                  const downloadUrl = (product.product_files as ProductFile)
-                    .url as string;
+                  const productFiles = product.product_files;
 
                   const { image } = product.images[0];
 
@@ -120,18 +112,32 @@ const ThankYouPage = async ({ searchParams }: PageProps) => {
                       <div className="flex-auto flex flex-col justify-between">
                         <div className="space-y-1">
                           <h3 className="text-gray-900">{product.name}</h3>
-
                           <p className="my-1">Category: {label}</p>
                         </div>
 
                         {order._isPaid ? (
-                          <a
-                            href={downloadUrl}
-                            download={product.name}
-                            className="text-blue-600 hover:underline underline-offset-2"
-                          >
-                            Download asset
-                          </a>
+                          <>
+                            {Array.isArray(productFiles) &&
+                              productFiles.map((file, index) => (
+                                <a
+                                  key={index} // Add a unique key for each link
+                                  href={
+                                    typeof file === "object" && file.url
+                                      ? file.url
+                                      : ""
+                                  }
+                                  download={product.name + `_file${index}`} // Customize the downloaded file name
+                                  className={buttonVariants({
+                                    variant: "link",
+                                  })}
+                                >
+                                  <DownloadIcon size={14} />
+                                  <span className="ml-2">
+                                    asset {index + 1}
+                                  </span>
+                                </a>
+                              ))}
+                          </>
                         ) : null}
                       </div>
 

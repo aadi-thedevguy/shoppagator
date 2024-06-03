@@ -58,8 +58,8 @@ export interface Product {
       }[]
     | null;
   price: number;
-  category: 'ui_kits' | 'icons';
-  product_files: string | ProductFile;
+  category: 'landing_pages' | 'icons';
+  product_files: (string | ProductFile)[];
   approvedForSale?: ('pending' | 'approved' | 'denied') | null;
   priceId?: string | null;
   stripeId?: string | null;

@@ -21,6 +21,21 @@ export async function getProduct(productId: string) {
   return docs[0];
 }
 
+export async function getOrder(orderId: string) {
+  const payload = await getPayloadClient();
+
+  const { docs } = await payload.find({
+    collection: "orders",
+    depth: 2,
+    where: {
+      id: {
+        equals: orderId,
+      },
+    },
+  });
+  return docs[0];
+}
+
 export async function getPolicyPage(slug: string) {
   const payload = await getPayloadClient();
 

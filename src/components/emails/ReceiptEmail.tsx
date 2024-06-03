@@ -169,13 +169,23 @@ export const ReceiptEmail = ({
           <Hr style={productPriceLineBottom} />
 
           <Text style={footerLinksWrapper}>
-            <Link href="#">Account Settings</Link> •{" "}
-            <Link href="#">Terms of Sale</Link> •{" "}
-            <Link href="#">Privacy Policy </Link>
+            <Link href={`${process.env.NEXT_PUBLIC_SERVER_URL}/contact-us`}>
+              Contact Us
+            </Link>{" "}
+            •{" "}
+            <Link href={`${process.env.NEXT_PUBLIC_SERVER_URL}/tos`}>
+              Terms of Service
+            </Link>{" "}
+            •{" "}
+            <Link href={`${process.env.NEXT_PUBLIC_SERVER_URL}/privacy-policy`}>
+              Privacy Policy{" "}
+            </Link>
           </Text>
           <Text style={footerCopyright}>
-            Copyright © 2023 Shopaggator Inc. <br />{" "}
-            <Link href="#">All rights reserved</Link>
+            Copyright © {date.getFullYear()} Shopaggator Inc. <br />{" "}
+            <Link href={`${process.env.NEXT_PUBLIC_SERVER_URL}`}>
+              All rights reserved
+            </Link>
           </Text>
         </Container>
       </Body>

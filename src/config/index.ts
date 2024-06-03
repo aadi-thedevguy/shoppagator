@@ -1,22 +1,22 @@
 export const PRODUCT_CATEGORIES = [
   {
-    label: "UI Kits",
-    value: "ui_kits" as const,
+    label: "Landing Pages",
+    value: "landing_pages" as const,
     featured: [
       {
         name: "Editor picks",
-        href: `/products?category=ui_kits`,
-        imageSrc: "/nav/ui-kits/mixed.jpg",
+        href: `/products?category=landing_pages`,
+        imageSrc: "/nav/designs/landing-page-1.png",
       },
       {
         name: "New Arrivals",
-        href: "/products?category=ui_kits&sort=desc",
-        imageSrc: "/nav/ui-kits/blue.jpg",
+        href: "/products?category=landing_pages&sort=desc",
+        imageSrc: "/nav/designs/landing-page-2.png",
       },
       {
         name: "Bestsellers",
-        href: "/products?category=ui_kits",
-        imageSrc: "/nav/ui-kits/purple.jpg",
+        href: "/products?category=landing_pages",
+        imageSrc: "/nav/designs/bestseller.webp",
       },
     ],
   },
@@ -29,11 +29,11 @@ export const PRODUCT_CATEGORIES = [
         href: `/products?category=icons`,
         imageSrc: "/nav/icons/picks.jpg",
       },
-      {
-        name: "New Arrivals",
-        href: "/products?category=icons&sort=desc",
-        imageSrc: "/nav/icons/new.jpg",
-      },
+      // {
+      //   name: "New Arrivals",
+      //   href: "/products?category=icons&sort=desc",
+      //   imageSrc: "/nav/icons/new.jpg",
+      // },
       {
         name: "Bestselling Icons",
         href: "/products?category=icons",

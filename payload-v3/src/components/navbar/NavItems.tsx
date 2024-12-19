@@ -6,9 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import NavItem from './NavItem'
 
 const NavItems = () => {
-  const [activeIndex, setActiveIndex] = useState<
-    null | number
-  >(null)
+  const [activeIndex, setActiveIndex] = useState<null | number>(null)
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -31,7 +29,7 @@ const NavItems = () => {
   useOnClickOutside(navRef, () => setActiveIndex(null))
 
   return (
-    <div className='flex gap-4 h-full' ref={navRef}>
+    <div className="flex gap-4 h-full" ref={navRef}>
       {PRODUCT_CATEGORIES.map((category, i) => {
         const handleOpen = () => {
           if (activeIndex === i) {

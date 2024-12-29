@@ -23,7 +23,6 @@ const ProductReel = (props: ProductReelProps) => {
     queryKey: ['products', query],
     queryFn: async () => {
       return await getInfiniteProducts({
-        cursor: query.limit ?? FALLBACK_LIMIT,
         query,
       })
     },
@@ -33,6 +32,15 @@ const ProductReel = (props: ProductReelProps) => {
   })
 
   const products = queryResults?.pages.flatMap((page) => page.items)
+  // !queryResults?.pages || queryResults.pages?.items.length <= 0
+  // if (!products) {
+  //   return (
+  //     <section className="max-w-2xl px-4 my-10 lg:max-w-4xl lg:px-0">
+  //       <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">No Products Found.</h1>
+  //       <p className="mt-2 text-sm text-muted-foreground">Add Products to view them here</p>
+  //     </section>
+  //   )
+  // }
 
   let map: (Product | null)[] = []
   if (products && products.length) {
@@ -59,6 +67,12 @@ const ProductReel = (props: ProductReelProps) => {
         ) : null}
       </div>
 
+      {/* {!products || products.length ? (
+        <section className="max-w-2xl px-4 my-10 lg:max-w-4xl lg:px-0">
+          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">No Products Found.</h1>
+          <p className="mt-2 text-sm text-muted-foreground">Add Products to view them here</p>
+        </section>
+      ) : ( */}
       <div className="relative">
         <div className="mt-6 flex items-center w-full">
           <div className="w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">

@@ -5,7 +5,6 @@ import ProductReel from '@/components/product/ProductReel'
 import Rating from '@/components/review/Rating'
 import Reviews from '@/components/review/Reviews'
 import RichText from '@/components/RichText'
-import { PRODUCT_CATEGORIES } from '@/config'
 import { getProduct, getReviewStats } from '@/server/queries.server'
 import { formatPrice } from '@/utilities/formatPrice'
 import { Check, Shield } from 'lucide-react'
@@ -24,15 +23,14 @@ const BREADCRUMBS = [
 ]
 
 const Page = async ({ params }: PageProps) => {
-  const { productId } = params
+  const { productId } = await params
 
   const product = await getProduct(productId)
 
   if (!product) return notFound()
 
   const { averageRating, reviews, ratingCounts } = await getReviewStats(productId)
-
-  const label = PRODUCT_CATEGORIES.find(({ value }) => value === product.category)?.label
+  const label = typeof product.category === 'object' ? product.category.label : product.category
 
   const validUrls = product.images
     .map(({ image }) => (typeof image === 'string' ? image : image.url))
@@ -75,7 +73,7 @@ const Page = async ({ params }: PageProps) => {
               </h1>
               <div className="mt-3 flex items-center">
                 <Rating rating={averageRating} />
-                <p>{reviews.length} Rating(s)</p>
+                {reviews.length > 0 && <p>{reviews.length} Rating(s)</p>}
               </div>
             </div>
 
@@ -137,7 +135,11 @@ const Page = async ({ params }: PageProps) => {
 
       <ProductReel
         href="/products"
-        query={{ category: product.category, limit: 4 }}
+        query={{
+          category:
+            typeof product.category !== 'string' ? product?.category?.slug : product.category,
+          limit: 4,
+        }}
         title={`Similar ${label}`}
         subtitle={`Browse similar high-quality ${label} just like '${product.name}'`}
       />

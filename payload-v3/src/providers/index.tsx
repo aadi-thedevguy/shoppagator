@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-// import { ThemeProvider } from './Theme'
+import { ThemeProvider } from './Theme'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 export const Providers: React.FC<{
@@ -11,9 +11,9 @@ export const Providers: React.FC<{
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
       {children}
-      {/* <ThemeProvider>
-      </ThemeProvider> */}
+      </ThemeProvider>
     </QueryClientProvider>
   )
 }

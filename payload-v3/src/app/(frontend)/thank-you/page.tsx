@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { notFound, redirect } from 'next/navigation'
 import { Product, User } from '@/payload-types'
-import { PRODUCT_CATEGORIES } from '@/config'
 import { formatPrice } from '@/utilities/formatPrice'
 import Link from 'next/link'
 import PaymentStatus from '@/components/PaymentStatus'
@@ -78,9 +77,10 @@ const ThankYouPage = async ({ searchParams }: PageProps) => {
 
               <ul className="mt-6 divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-muted-foreground">
                 {(order.products as Product[]).map((product) => {
-                  const label = PRODUCT_CATEGORIES.find(
-                    ({ value }) => value === product.category,
-                  )?.label
+                  const label =
+                    typeof product?.category === 'object'
+                      ? product.category?.label
+                      : product.category
 
                   const productFiles = product.product_files
 

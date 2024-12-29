@@ -108,38 +108,27 @@ export async function getReviewStats(productId: string) {
 
 
 export async function getInfiniteProducts({
-  cursor = 1,
-  query
+  query,
+  cursor = 1
 }: {
-  cursor: number
   query: TQueryValidator
+  cursor?: number
 }) {
   const validated = QueryValidator.safeParse(query);
 
   if (!validated.success) {
     throw new Error(validated.error.message);
   }
-  const { sort, limit, ...queryOpts } = validated.data;
-
-  const parsedQueryOpts: Record<string, { equals: string }> = {};
-
-  Object.entries(queryOpts).forEach(([key, value]) => {
-    parsedQueryOpts[key] = {
-      equals: value,
+  const { sort, limit, category } = validated.data;
+  const categoryObj: Record<string, { equals: string }> = {};
+  if (category) {
+    categoryObj["category.slug"] = {
+      equals: category,
     };
-  });
+  }
 
-  const payload = await getPayload({ config: configPromise });
   try {
-    const parsedQueryOpts: Record<string, { equals: string }> = {};
-
-    Object.entries(queryOpts).forEach(([key, value]) => {
-      parsedQueryOpts[key] = {
-        equals: value,
-      };
-    });
-
-    const page = cursor || 1;
+    const payload = await getPayload({ config: configPromise });
 
     const {
       docs: items,
@@ -151,18 +140,37 @@ export async function getInfiniteProducts({
         approvedForSale: {
           equals: "approved",
         },
-        ...parsedQueryOpts,
+        ...categoryObj
       },
       sort,
-      depth: 1,
+      depth: 2,
       limit,
-      page,
+      page: cursor
     });
 
     return {
       items,
       nextPage: hasNextPage ? nextPage : null,
     };
+
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Failed to Submit, Try Again Later");
+  }
+}
+
+export async function getCategories() {
+  try {
+    const payload = await getPayload({ config: configPromise });
+    const {
+      docs
+    } = await payload.find({
+      collection: "categories",
+    });
+    return docs
+
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);

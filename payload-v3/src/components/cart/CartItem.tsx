@@ -1,4 +1,3 @@
-import { PRODUCT_CATEGORIES } from '@/config'
 import { useCart } from '@/hooks/use-cart'
 import { formatPrice } from '@/utilities/formatPrice'
 import { Product } from '@/payload-types'
@@ -10,7 +9,7 @@ const CartItem = ({ product }: { product: Product }) => {
 
   const { removeItem } = useCart()
 
-  const label = PRODUCT_CATEGORIES.find(({ value }) => value === product.category)?.label
+  const label = typeof product.category === 'object' ? product.category.label : product.category
 
   return (
     <div className="space-y-3 py-2">

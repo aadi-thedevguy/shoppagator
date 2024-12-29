@@ -1,6 +1,5 @@
 'use client'
 
-import { PRODUCT_CATEGORIES } from '@/config'
 import { LogOut, Menu, UserRoundCheck, UserRoundPlus, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,12 +7,13 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import { useAuth } from '@/hooks/use-auth'
-import { User } from '@/payload-types'
+import { Category, User } from '@/payload-types'
 
 type Props = {
   user: User | null
+  categories: Category[]
 }
-const MobileNav = ({ user }: Props) => {
+const MobileNav = ({ user, categories }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const { signOut } = useAuth()
   const pathname = usePathname()
@@ -69,7 +69,7 @@ const MobileNav = ({ user }: Props) => {
 
             <div className="mt-2">
               <ul>
-                {PRODUCT_CATEGORIES.map((category) => (
+                {categories.map((category) => (
                   <li key={category.label} className="space-y-10 px-4 pb-8 pt-10">
                     <div className="border-b border-gray-200">
                       <div className="-mb-px flex">
@@ -80,21 +80,30 @@ const MobileNav = ({ user }: Props) => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-y-10 gap-x-4">
-                      {category.featured.map((item) => (
-                        <div key={item.name} className="group relative text-sm">
-                          <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
-                            <Image
-                              fill
-                              src={item.imageSrc}
-                              alt="product category image"
-                              className="object-cover object-center"
-                            />
+                      {category.featured &&
+                        category.featured.map((item) => (
+                          <div key={item.name} className="group relative text-sm">
+                            <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
+                              <Image
+                                fill
+                                src={
+                                  typeof item.image === 'object' && item.image.url
+                                    ? item?.image?.url
+                                    : item.image.toString()
+                                }
+                                alt="product category image"
+                                className="object-cover object-center"
+                              />
+                            </div>
+
+                            <Link
+                              href={`/products?category=${category.slug}&sort=desc`}
+                              className="mt-6 block font-medium text-gray-900"
+                            >
+                              {item.name}
+                            </Link>
                           </div>
-                          <Link href={item.href} className="mt-6 block font-medium text-gray-900">
-                            {item.name}
-                          </Link>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   </li>
                 ))}

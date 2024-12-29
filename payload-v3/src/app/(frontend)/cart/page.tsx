@@ -1,7 +1,7 @@
 'use client'
 
+import React from 'react'
 import { Button } from '@/components/ui/button'
-import { PRODUCT_CATEGORIES } from '@/config'
 import { useCart } from '@/hooks/use-cart'
 import { formatPrice } from '@/utilities/formatPrice'
 import { cn } from '@/utilities/cn'
@@ -12,8 +12,7 @@ import { useEffect, useState } from 'react'
 import { createCheckoutSession } from '@/server/payment.server'
 import { toast } from '@payloadcms/ui'
 
-const Page = () => {
-  // TODO:
+function Checkout() {
   // if (!request.user) return res.redirect("/sign-in?origin=cart");
   const { items, removeItem, clearCart } = useCart()
 
@@ -41,7 +40,6 @@ const Page = () => {
       window.location.href = url
     }
   }
-
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -83,7 +81,8 @@ const Page = () => {
             >
               {isMounted &&
                 items.map(({ product }) => {
-                  const label = PRODUCT_CATEGORIES.find((c) => c.value === product.category)?.label
+                  const label =
+                    typeof product.category === 'object' ? product.category.label : product.category
 
                   const { image } = product.images[0]
 
@@ -208,4 +207,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default Checkout

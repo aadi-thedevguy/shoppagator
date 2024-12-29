@@ -8,9 +8,11 @@ import Cart from '../cart/Cart'
 import { getMeUser } from '@/utilities/getMeUser'
 import UserAccountNav from '../UserAccountNav'
 import MobileNav from './MobileNav'
+import { getCategories } from '@/server/queries.server'
 
 const Navbar = async () => {
   const { user } = await getMeUser()
+  const categories = await getCategories()
 
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
@@ -18,7 +20,7 @@ const Navbar = async () => {
         <MaxWidthWrapper>
           <div className="border-b border-gray-200">
             <div className="flex h-16 items-center">
-              <MobileNav user={user} />
+              <MobileNav user={user} categories={categories} />
 
               <div className="ml-4 flex lg:ml-0">
                 <Link href="/">
@@ -27,7 +29,7 @@ const Navbar = async () => {
               </div>
 
               <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
-                <NavItems />
+                <NavItems categories={categories} />
               </div>
 
               <div className="ml-auto flex items-center">

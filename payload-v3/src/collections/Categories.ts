@@ -12,13 +12,40 @@ export const Categories: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    useAsTitle: 'title',
+    useAsTitle: "label"
   },
   fields: [
     {
-      name: 'title',
+      name: 'label',
       type: 'text',
+      maxLength: 30,
       required: true,
     },
+    {
+      name: 'slug',
+      label: 'Category Slug',
+      type: 'text',
+      required: true,
+      index: true,
+      unique: true,
+      validate: (value) => (typeof value === "string" && !value.includes(" ")) || 'This field is required'
+    },
+    {
+      name: 'featured',
+      type: 'array',
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: "image",
+          type: "upload",
+          relationTo: "media",
+          required: true,
+        },
+      ]
+    }
   ],
 }

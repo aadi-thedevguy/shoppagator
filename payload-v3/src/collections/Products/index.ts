@@ -1,4 +1,3 @@
-import { PRODUCT_CATEGORIES } from "../../config";
 import { CollectionConfig } from "payload";
 import {
     addUser,
@@ -62,9 +61,9 @@ export const Products: CollectionConfig = {
         {
             name: "category",
             label: "Category",
-            type: "select",
-            options: PRODUCT_CATEGORIES.map(({ label, value }) => ({ label, value })),
             required: true,
+            type: "relationship",
+            relationTo: "categories"
         },
         {
             name: "product_files",

@@ -6,7 +6,6 @@ import { Skeleton } from '../ui/skeleton'
 import Link from 'next/link'
 import { formatPrice } from '@/utilities/formatPrice'
 import { cn } from '@/utilities/cn'
-import { PRODUCT_CATEGORIES } from '@/config'
 import ImageSlider from '../ImageSlider'
 
 interface ProductListingProps {
@@ -26,8 +25,7 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
   }, [index])
 
   if (!product || !isVisible) return <ProductPlaceholder />
-
-  const label = PRODUCT_CATEGORIES.find(({ value }) => value === product.category)?.label
+  const label = typeof product.category === 'object' ? product.category.label : product.category
 
   const validUrls = product.images
     .map(({ image }) => (typeof image === 'string' ? image : image.url))

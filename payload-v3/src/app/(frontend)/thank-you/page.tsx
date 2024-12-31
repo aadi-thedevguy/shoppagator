@@ -10,13 +10,14 @@ import { getMeUser } from '@/utilities/getMeUser'
 import { getOrder } from '@/server/queries.server'
 
 interface PageProps {
-  searchParams: {
+  searchParams: Promise<{
     [key: string]: string
-  }
+  }>
 }
 
 const ThankYouPage = async ({ searchParams }: PageProps) => {
-  const orderId = searchParams.orderId
+  const params = await searchParams
+  const orderId = params.orderId
   if (!orderId) return notFound()
 
   const { user } = await getMeUser()

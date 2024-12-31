@@ -3,7 +3,7 @@ import React from 'react'
 import { notFound } from 'next/navigation'
 import RichText from '@/components/RichText'
 
-async function Page({ params }: { params: { policy: string } }) {
+async function Page({ params }: { params: Promise<{ policy: string }> }) {
   const { policy } = await params
   const data = await getPolicyPage(policy)
 

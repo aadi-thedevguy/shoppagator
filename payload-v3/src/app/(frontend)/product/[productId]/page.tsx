@@ -12,9 +12,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 interface PageProps {
-  params: {
+  params: Promise<{
     productId: string
-  }
+  }>
 }
 
 const BREADCRUMBS = [

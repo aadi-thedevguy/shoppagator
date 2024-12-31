@@ -5,7 +5,7 @@ import { getCategories } from '@/server/queries.server'
 type Param = string | string[] | undefined
 
 interface ProductsPageProps {
-  searchParams: { [key: string]: Param }
+  searchParams: Promise<{ [key: string]: Param }>
 }
 
 const parse = (param: Param) => {

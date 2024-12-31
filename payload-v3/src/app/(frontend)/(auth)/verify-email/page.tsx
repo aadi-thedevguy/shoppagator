@@ -2,9 +2,9 @@ import VerifyEmail from '@/components/VerifyEmail'
 import Image from 'next/image'
 
 interface PageProps {
-  searchParams: {
+  searchParams: Promise<{
     [key: string]: string | string[] | undefined
-  }
+  }>
 }
 
 const VerifyEmailPage = async ({ searchParams }: PageProps) => {

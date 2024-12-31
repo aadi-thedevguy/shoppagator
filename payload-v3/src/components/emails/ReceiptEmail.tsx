@@ -20,7 +20,7 @@ import {
 import * as React from 'react'
 
 import { format } from 'date-fns'
-import { Children, serialize } from '../serialise'
+import RichText from '../RichText'
 
 interface ReceiptEmailProps {
   email: string
@@ -109,7 +109,7 @@ export const ReceiptEmail = ({ email, date, orderId, products }: ReceiptEmailPro
                     // @ts-ignore
                     product.description.map((el, i) => (
                       <Text style={productDescription} key={i}>
-                        {serialize(el.children as Children)}
+                        <RichText content={el} />
                       </Text>
                     ))}
                   {/* {product.description ? (

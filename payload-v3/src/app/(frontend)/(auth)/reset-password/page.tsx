@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -11,10 +11,23 @@ import { Loader2, EyeIcon, EyeOffIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { resetValidator, TResetValidator } from '@/validators/account-credentials-validator'
 import { resetPassword } from '@/server/auth.server'
-import { useSearchParams,useRouter } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { Skeleton } from '@/components/ui/skeleton'
 
-const Page = () => {
+const SkeletonCard = () => {
+  return (
+    <div className="flex flex-col space-y-3">
+      <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-[250px]" />
+        <Skeleton className="h-4 w-[200px]" />
+      </div>
+    </div>
+  )
+}
+
+const ResetForm = () => {
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
   const router = useRouter()
@@ -142,6 +155,14 @@ const Page = () => {
         )}
       </div>
     </div>
+  )
+}
+
+const Page = () => {
+  return (
+    <Suspense fallback={<SkeletonCard />}>
+      <ResetForm />
+    </Suspense>
   )
 }
 

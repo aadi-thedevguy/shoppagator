@@ -28,9 +28,11 @@ const Navbar = async () => {
                 </Link>
               </div>
 
-              <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
-                <NavItems categories={categories} />
-              </div>
+              {categories && categories.length > 0 && (
+                <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
+                  <NavItems categories={categories} />
+                </div>
+              )}
 
               <div className="ml-auto flex items-center">
                 <div className="lg:hidden ml-4 flow-root lg:ml-6">

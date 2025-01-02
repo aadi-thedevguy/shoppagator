@@ -1,6 +1,6 @@
 'use client'
 
-import { LogOut, Menu, UserRoundCheck, UserRoundPlus, X } from 'lucide-react'
+import { LogOut, Menu, Plus, UserRoundCheck, UserRoundPlus, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -68,46 +68,56 @@ const MobileNav = ({ user, categories }: Props) => {
             </div>
 
             <div className="mt-2">
-              <ul>
-                {categories.map((category) => (
-                  <li key={category.label} className="space-y-10 px-4 pb-8 pt-10">
-                    <div className="border-b border-gray-200">
-                      <div className="-mb-px flex">
-                        <p className="border-transparent text-gray-900 flex-1 whitespace-nowrap border-b-2 py-4 text-base font-medium">
-                          {category.label}
-                        </p>
+              {categories && categories.length > 0 ? (
+                <ul>
+                  {categories.map((category) => (
+                    <li key={category.label} className="space-y-10 px-4 pb-8 pt-10">
+                      <div className="border-b border-gray-200">
+                        <div className="-mb-px flex">
+                          <p className="border-transparent text-gray-900 flex-1 whitespace-nowrap border-b-2 py-4 text-base font-medium">
+                            {category.label}
+                          </p>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="grid grid-cols-2 gap-y-10 gap-x-4">
-                      {category.featured &&
-                        category.featured.map((item) => (
-                          <div key={item.name} className="group relative text-sm">
-                            <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
-                              <Image
-                                fill
-                                src={
-                                  typeof item.image === 'object' && item.image.url
-                                    ? item?.image?.url
-                                    : item.image.toString()
-                                }
-                                alt="product category image"
-                                className="object-cover object-center"
-                              />
+                      <div className="grid grid-cols-2 gap-y-10 gap-x-4">
+                        {category.featured &&
+                          category.featured.map((item) => (
+                            <div key={item.name} className="group relative text-sm">
+                              <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
+                                <Image
+                                  fill
+                                  src={
+                                    typeof item.image === 'object' && item.image.url
+                                      ? item?.image?.url
+                                      : item.image.toString()
+                                  }
+                                  alt="product category image"
+                                  className="object-cover object-center"
+                                />
+                              </div>
+
+                              <Link
+                                href={`/products?category=${category.slug}&sort=desc`}
+                                className="mt-6 block font-medium text-gray-900"
+                              >
+                                {item.name}
+                              </Link>
                             </div>
-
-                            <Link
-                              href={`/products?category=${category.slug}&sort=desc`}
-                              className="mt-6 block font-medium text-gray-900"
-                            >
-                              {item.name}
-                            </Link>
-                          </div>
-                        ))}
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                          ))}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <Link
+                  href="/admin/collections/categories"
+                  className="my-6 px-4 font-medium flex items-center gap-2 text-gray-900"
+                >
+                  <Plus className="w-4 h-4 text-gray-900" />
+                  <span>Categories</span>
+                </Link>
+              )}
             </div>
 
             <div className="space-y-6 border-t border-gray-200 px-4 py-6">

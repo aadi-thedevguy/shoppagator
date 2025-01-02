@@ -3,7 +3,7 @@ import { UserRoundPlus, UserRoundCheck } from 'lucide-react'
 import MaxWidthWrapper from '../MaxWidthWrapper'
 import { Icons } from '../Icons'
 import NavItems from './NavItems'
-import { buttonVariants } from '../ui/button'
+import { Button, buttonVariants } from '../ui/button'
 import Cart from '../cart/Cart'
 import { getMeUser } from '@/utilities/getMeUser'
 import UserAccountNav from '../UserAccountNav'
@@ -28,11 +28,15 @@ const Navbar = async () => {
                 </Link>
               </div>
 
-              {categories && categories.length > 0 && (
-                <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
+              <div className="hidden z-50 lg:ml-8 lg:flex lg:items-center lg:self-stretch">
+                {categories && categories.length > 0 ? (
                   <NavItems categories={categories} />
-                </div>
-              )}
+                ) : (
+                  <Button className="gap-1.5" variant="ghost">
+                    <Link href="/admin/collections/categories">Add Category</Link>
+                  </Button>
+                )}
+              </div>
 
               <div className="ml-auto flex items-center">
                 <div className="lg:hidden ml-4 flow-root lg:ml-6">

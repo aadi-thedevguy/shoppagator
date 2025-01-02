@@ -7,7 +7,7 @@ export const Categories: CollectionConfig = {
   slug: 'categories',
   access: {
     create: authenticated,
-    delete: authenticated,
+    delete: () => false,
     read: anyone,
     update: authenticated,
   },

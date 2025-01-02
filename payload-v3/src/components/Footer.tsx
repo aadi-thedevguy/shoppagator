@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import MaxWidthWrapper from './MaxWidthWrapper'
 import { Icons } from './Icons'
 import Link from 'next/link'
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
+// import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 
 const Footer = () => {
   const pathname = usePathname()

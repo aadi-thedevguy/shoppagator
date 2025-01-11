@@ -1,6 +1,7 @@
 
 <img alt="banner" src="https://github.com/aadi-thedevguy/shoppagator/blob/main/payload-v3/public/shopaggator.png" />
 
+
 # Features ⚙️
 1.  **Admin Dashboard:** A fully customisable multi-theme(dark/light), multi-lingual admin dashboard where you can add and delete products, manage orders, and reviews and even ban or delete users.  
     You can also modify static content and images of your website on different pages.
@@ -15,9 +16,17 @@
 
 
 # Tech Stack 🔨
-1.  NextJS 15 with App Router and React 19, Hello👋 **use client** **use server** derivatives.
+1.  NextJS 15 with App Router and React 19 all written in TypeScript, Hello👋 **use client** **use server** derivatives.
 3.  The big Three of every react project: [Zod](https://zod.dev/),[React hook form](https://react-hook-form.com/) and [Tanstack Query](https://tanstack.com/query/latest).
 4.  Material UI/ Ant Design ❌, [Shadcn UI](https://ui.shadcn.com/) ✅.
 5.  Found the perfect CMS [(Payload)](https://payloadcms.com/docs/getting-started/what-is-payload) for next.
-2.  [TRPC](https://trpc.io/docs/quickstart) (deprecated in the latest version of this app).
+6.  [TRPC](https://trpc.io/docs/quickstart) (deprecated in the latest version of this app).
    
+## Previews
+<img width="100%" height="100%" alt="home page" src="https://firebasestorage.googleapis.com/v0/b/portfolio-52b82.appspot.com/o/shoppagator%2F1717501230574.jpg?alt=media&token=d6229f99-89b7-4edb-821c-7893c3911f42" />
+
+<img width="100%" height="100%" alt="admin" src="https://firebasestorage.googleapis.com/v0/b/portfolio-52b82.appspot.com/o/shoppagator%2Fshoppagator-admin.png?alt=media&token=a3552bc2-74e7-4850-b38f-8784347e2e05" />
+
+<img width="100%" height="100%" alt="banner" src="https://firebasestorage.googleapis.com/v0/b/portfolio-52b82.appspot.com/o/shoppagator%2Fshoppagator-media.png?alt=media&token=98a81ae6-612d-450b-8752-ff85a42a277c" />
+
+<img width="100%" height="100%" alt="banner" src="https://firebasestorage.googleapis.com/v0/b/portfolio-52b82.appspot.com/o/shoppagator%2Fshoppagator-user.png?alt=media&token=801b796c-a1f0-4c6a-8224-f7d6327e7d94" />

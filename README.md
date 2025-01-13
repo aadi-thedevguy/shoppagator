@@ -1,6 +1,7 @@
 
 <img alt="banner" src="https://github.com/aadi-thedevguy/shoppagator/blob/main/payload-v3/public/shopaggator.png" />
 
+_The v2 of this video is inspired by this [video](https://www.youtube.com/watch?v=06g6YJ6JCJU) at [Josh Tried Coding](http://www.youtube.com/@joshtriedcoding) Youtube Channel_ 
 
 # Features ⚙️
 1.  **Admin Dashboard:** A fully customisable multi-theme(dark/light), multi-lingual admin dashboard where you can add and delete products, manage orders, and reviews and even ban or delete users.  

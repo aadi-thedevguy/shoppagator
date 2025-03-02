@@ -94,7 +94,7 @@ importers:
         specifier: ^0.378.0
         version: 0.378.0(react@19.0.0)
       next:
-        specifier: ^15
+        specifier: ^15.0.3
         version: 15.0.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4)
       payload:
         specifier: latest

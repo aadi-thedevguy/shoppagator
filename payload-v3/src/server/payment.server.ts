@@ -7,7 +7,7 @@ import Stripe from "stripe";
 import { stripe } from "./stripe";
 
 export async function createCheckoutSession(input: { productIds: string[] }) {
-    await getMeUser({ nullUserRedirect: "/login" });
+    await getMeUser({ nullUserRedirect: "/sign-in" });
     const { user } = await getMeUser();
 
     if (input.productIds.length === 0) {
@@ -68,7 +68,7 @@ export async function createCheckoutSession(input: { productIds: string[] }) {
 }
 
 export async function pollOrderStatus(input: { orderId: string }) {
-    await getMeUser({ nullUserRedirect: "/login" });
+    await getMeUser({ nullUserRedirect: "/sign-in" });
 
     const payload = await getPayload({ config: payloadConfig });
 

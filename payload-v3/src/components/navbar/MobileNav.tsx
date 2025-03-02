@@ -56,7 +56,7 @@ const MobileNav = ({ user, categories }: Props) => {
 
       <div className="fixed overflow-y-scroll overscroll-y-none inset-0 z-40 flex">
         <div className="w-4/5">
-          <div className="relative flex w-full max-w-sm flex-col overflow-y-auto bg-white pb-12 shadow-xl">
+          <div className="relative h-full flex w-full max-w-sm flex-col overflow-y-auto bg-white pb-12 shadow-xl">
             <div className="flex px-4 pb-2 pt-5">
               <button
                 type="button"
@@ -110,13 +110,12 @@ const MobileNav = ({ user, categories }: Props) => {
                   ))}
                 </ul>
               ) : (
-                <Link
-                  href="/admin/collections/categories"
-                  className="my-6 px-4 font-medium flex items-center gap-2 text-gray-900"
-                >
-                  <Plus className="w-4 h-4 text-gray-900" />
-                  <span>Categories</span>
-                </Link>
+                <div className="my-6 px-4 flex items-center gap-1">
+                  <Link href="/admin/collections/categories">
+                    <Plus className="w-4 h-4 text-gray-900" />
+                  </Link>
+                  <span>Category</span>
+                </div>
               )}
             </div>
 

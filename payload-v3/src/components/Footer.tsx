@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import MaxWidthWrapper from './MaxWidthWrapper'
 import { Icons } from './Icons'
 import Link from 'next/link'
-// import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
+import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 
 const Footer = () => {
   const pathname = usePathname()
@@ -53,11 +53,6 @@ const Footer = () => {
 
         <div className="py-10 md:flex md:items-center md:justify-between">
           {/* <ThemeSelector /> */}
-          <div className="text-center md:text-left">
-            <p className="text-sm text-muted-foreground">
-              &copy; {new Date().getFullYear()} All Rights Reserved
-            </p>
-          </div>
 
           <div className="mt-4 flex items-center justify-center md:mt-0">
             <div className="flex flex-col gap-4 justify-center sm:flex-row sm:space-x-8">
@@ -80,6 +75,12 @@ const Footer = () => {
                 Cookie Policy
               </Link>
             </div>
+          </div>
+
+          <div className="text-center mt-6 md:text-right md:mt-0">
+            <p className="text-sm text-muted-foreground/70">
+              &copy; {new Date().getFullYear()} All Rights Reserved
+            </p>
           </div>
         </div>
       </MaxWidthWrapper>

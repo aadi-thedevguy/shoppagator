@@ -11,7 +11,7 @@ const filter = new Filter();
 
 export async function createReview(input: unknown) {
     await getMeUser({
-        nullUserRedirect: "/login"
+        nullUserRedirect: "/sign-in"
     })
     const validated = ReviewValidator.safeParse(input);
 

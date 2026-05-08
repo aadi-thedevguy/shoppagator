@@ -30,10 +30,10 @@ export function constructMetadata({
             title,
             description,
             images: [image],
-            creator: "@thedevguy.in",
+            creator: "@Aadi__khare",
         },
         icons,
-        metadataBase: new URL("https://shoppagator.thedevguy.in"),
+        metadataBase: new URL("https://shoppagator.adityakhare.com"),
         ...(noIndex && {
             robots: {
                 index: false,

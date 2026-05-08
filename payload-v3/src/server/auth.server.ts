@@ -127,13 +127,14 @@ export const verifyEmail = async (input: unknown) => {
   const payload = await getPayload({ config: configPromise })
 
   try {
-    const isVerified = await payload.verifyEmail({
+    await payload.verifyEmail({
       collection: 'users',
       token,
     })
 
-    if (!isVerified) {
-      throw new Error('Invalid token')
+    return {
+      success: true,
+      message: 'Successfully verified email',
     }
   } catch (error) {
     if (error instanceof Error) {

@@ -12,9 +12,10 @@ interface VerifyEmailProps {
 }
 
 const VerifyEmail = ({ token }: VerifyEmailProps) => {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['verify-email', token],
     queryFn: async () => await verifyEmail({ token }),
+    retry: false, // Don't retry on failure; tokens are single-use
     enabled: !!token,
   })
 
@@ -28,31 +29,38 @@ const VerifyEmail = ({ token }: VerifyEmailProps) => {
     )
   }
 
-  if (isError) {
+  if (data?.success) {
     return (
-      <div className="flex flex-col items-center gap-2">
-        <XCircle className="h-8 w-8 text-red-600" />
-        <h3 className="font-semibold text-xl">There was a problem</h3>
-        <p className="text-muted-foreground text-sm">
-          {error.message || 'This token is not valid or might be expired. Please try again.'}
-        </p>
+      <div className="flex h-full flex-col items-center justify-center text-center">
+        <div className="relative mb-4 h-60 w-60">
+          <Image src="/alligator-email-sent.png" fill alt="Email verified" priority />
+        </div>
+        <h3 className="font-semibold text-2xl">You&apos;re all set!</h3>
+        <p className="text-muted-foreground mt-1">Thank you for verifying your email.</p>
+        <Link className={buttonVariants({ className: 'mt-4' })} href="/sign-in">
+          Sign in
+        </Link>
       </div>
     )
   }
 
-  return (
-    <div className="flex h-full flex-col items-center justify-center">
-      <div className="relative mb-4 h-60 w-60 text-muted-foreground">
-        <Image src="/alligator-email-sent.png" fill alt="the email was sent" />
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center gap-2 text-center">
+        <XCircle className="h-8 w-8 text-red-600" />
+        <h3 className="font-semibold text-xl">Verification link expired</h3>
+        <p className="text-muted-foreground text-sm max-w-xs">
+          This link has already been used or has expired. If you&apos;re already verified, you can
+          sign in below.
+        </p>
+        <Link className={buttonVariants({ variant: 'outline', className: 'mt-4' })} href="/sign-in">
+          Go to Sign In
+        </Link>
       </div>
+    )
+  }
 
-      <h3 className="font-semibold text-2xl">You&apos;re all set!</h3>
-      <p className="text-muted-foreground text-center mt-1">Thank you for verifying your email.</p>
-      <Link className={buttonVariants({ className: 'mt-4' })} href="/sign-in">
-        Sign in
-      </Link>
-    </div>
-  )
+  return null
 }
 
 export default VerifyEmail

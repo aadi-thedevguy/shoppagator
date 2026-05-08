@@ -15,6 +15,7 @@ const VerifyEmail = ({ token }: VerifyEmailProps) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['verify-email', token],
     queryFn: async () => await verifyEmail({ token }),
+    enabled: !!token,
   })
 
   if (isLoading) {

@@ -42,7 +42,7 @@ export const ReceiptEmail = ({ email, date, orderId, products }: ReceiptEmailPro
           <Section>
             <Column>
               <Img
-                src={`${process.env.NEXT_PUBLIC_SERVER_URL}/alligator-email-sent.png`}
+                src="https://shoppagator.adityakhare.com/alligator-email-sent.png"
                 width="100"
                 height="100"
                 alt="Shoppagator"

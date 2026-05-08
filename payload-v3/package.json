@@ -20,7 +20,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@payloadcms/db-mongodb": "latest",
-    "@payloadcms/email-nodemailer": "^3.1.0",
+    "@payloadcms/email-resend": "^3.84.1",
     "@payloadcms/next": "latest",
     "@payloadcms/payload-cloud": "latest",
     "@payloadcms/plugin-search": "3.1.0",

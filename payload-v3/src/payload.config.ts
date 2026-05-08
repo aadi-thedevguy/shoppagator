@@ -1,6 +1,7 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { s3Storage } from '@payloadcms/storage-s3'
-import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import { resendAdapter } from '@payloadcms/email-resend'
+
 import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -22,18 +23,10 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  email: nodemailerAdapter({
-    defaultFromAddress: 'support@thedevguy.in',
+  email: resendAdapter({
+    defaultFromAddress: 'support@aditykhare.com',
     defaultFromName: 'No Reply',
-    // Nodemailer transportOptions
-    transportOptions: {
-      host: process.env.SMTP_HOST,
-      port: 587,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    },
+    apiKey: process.env.RESEND_API_KEY!,
   }),
   admin: {
     components: {

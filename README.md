@@ -13,13 +13,11 @@ _The v2 of this video is inspired by this [video](https://www.youtube.com/watch?
     As an Admin you can add a product meta description and image for a better SEO ranking.
 5.  **Upcoming Features:** Seller Accounts so anyone can make money by just setting their emails and stripe accounts, The admin can also update and manage categories, Navbar and Footer links.
 6.  **For Developers:** If you as a developer want to extend and customise this code, it is very easy to set up.  
-    I've included both the dev and production docker files with the repo, just set up your .env file and voila, you can self-host it wherever you want as a standalone node server.
+    I've included both the dev and production Dockerfiles with the repo, just set up your .env file and you can self-host it wherever you want as a standalone node server.
 
 
 # Tech Stack 🔨
-1.  NextJS 15 with App Router and React 19 all written in TypeScript, Hello👋 **use client** **use server** derivatives.
-3.  The big Three of every react project: [Zod](https://zod.dev/),[React hook form](https://react-hook-form.com/) and [Tanstack Query](https://tanstack.com/query/latest).
-4.  Material UI/ Ant Design ❌, [Shadcn UI](https://ui.shadcn.com/) ✅.
-5.  Found the perfect CMS [(Payload)](https://payloadcms.com/docs/getting-started/what-is-payload) for next.
-6.  [TRPC](https://trpc.io/docs/quickstart) (deprecated in the latest version of this app).
-   
+1.  NextJS 15 with App Router and React 19 with TypeScript.
+2.  The big Three of every react project: [Zod](https://zod.dev/), [React hook form](https://react-hook-form.com/) and [Tanstack Query](https://tanstack.com/query/latest).
+3.  Material UI/ Ant Design ❌, [Shadcn UI](https://ui.shadcn.com/) ✅.
+4.  Found the perfect CMS [(Payload)](https://payloadcms.com/docs/getting-started/what-is-payload) for NextJS.

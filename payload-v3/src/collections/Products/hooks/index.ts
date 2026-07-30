@@ -5,7 +5,7 @@ import type {
   CollectionBeforeDeleteHook,
 } from "payload";
 import type { Product } from "@/payload-types";
-import { stripe } from "@/server/stripe";
+import { getStripe } from "@/server/stripe";
 
 export const syncProduct: CollectionBeforeDeleteHook = async ({ req, id }) => {
   try {
@@ -49,7 +49,7 @@ export const createStripeProduct: CollectionBeforeChangeHook<Product> = async (
   if (args.operation === "create") {
     const data = args.data as Product;
 
-    const createdProduct = await stripe.products.create({
+    const createdProduct = await getStripe().products.create({
       name: data.name,
       default_price_data: {
         currency: "INR",
@@ -67,7 +67,7 @@ export const createStripeProduct: CollectionBeforeChangeHook<Product> = async (
   } else if (args.operation === "update") {
     const data = args.data as Product;
 
-    const updatedProduct = await stripe.products.update(data.stripeId!, {
+    const updatedProduct = await getStripe().products.update(data.stripeId!, {
       name: data.name,
       default_price: data.priceId!,
     });

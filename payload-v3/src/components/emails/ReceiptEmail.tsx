@@ -15,7 +15,7 @@ import {
   Section,
   Text,
   render,
-} from '@react-email/components'
+} from 'react-email'
 
 import * as React from 'react'
 

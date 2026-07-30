@@ -4,7 +4,7 @@ import { getMeUser } from "@/utilities/getMeUser";
 import payloadConfig from "@payload-config";
 import { getPayload } from "payload";
 import Stripe from "stripe";
-import { stripe } from "./stripe";
+import { getStripe } from "./stripe";
 
 export async function createCheckoutSession(input: { productIds: string[] }) {
     await getMeUser({ nullUserRedirect: "/sign-in" });
@@ -46,7 +46,7 @@ export async function createCheckoutSession(input: { productIds: string[] }) {
     });
 
     try {
-        const stripeSession = await stripe.checkout.sessions.create({
+        const stripeSession = await getStripe().checkout.sessions.create({
             success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
             cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,
             payment_method_types: ["card"],

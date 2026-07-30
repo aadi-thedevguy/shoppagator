@@ -1,19 +1,19 @@
-import React from 'react'
+import React from "react";
 
-import { cn } from 'src/utilities/cn'
-import { Providers } from '@/providers'
-import { constructMetadata } from '@/utilities/constructMetadeta'
+import { cn } from "@/utilities/cn";
+import { Providers } from "@/providers";
+import { constructMetadata } from "@/utilities/constructMetadeta";
 // import { InitTheme } from '@/providers/Theme/InitTheme'
 // import { getServerSideURL } from '@/utilities/getURL'
-import { Toaster } from 'sonner'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import Navbar from '@/components/navbar/Navbar'
-import Footer from '@/components/Footer'
+import { Toaster } from "sonner";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Navbar from "@/components/navbar/Navbar";
+import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = constructMetadata()
+export const metadata = constructMetadata();
 // export const metadata: Metadata = {
 //   metadataBase: new URL(getServerSideURL()),
 //   openGraph: mergeOpenGraph(),
@@ -27,13 +27,13 @@ export default function RootLayout({
   review,
   children,
 }: {
-  review: React.ReactNode
-  children: React.ReactNode
+  review: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
     <html
       lang="en"
-      className={cn('h-full scroll-smooth', inter.className)}
+      className={cn("h-full scroll-smooth", inter.className)}
       suppressHydrationWarning
     >
       <head>
@@ -52,5 +52,5 @@ export default function RootLayout({
         <Toaster position="top-center" richColors />
       </body>
     </html>
-  )
+  );
 }

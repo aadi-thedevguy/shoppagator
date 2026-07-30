@@ -28,7 +28,7 @@ export const EmailTemplate = ({ actionLabel, buttonText, href }: EmailTemplatePr
       <Body style={main}>
         <Container style={container}>
           <Img
-            src="https://shoppagator.adityakhare.com/alligator-preview.png"
+            src="https://shoppagator.devvault.cloud/alligator-preview.png"
             width="150"
             height="150"
             alt="Shoppagator Mascot"

@@ -33,7 +33,7 @@ export function constructMetadata({
             creator: "@Aadi__khare",
         },
         icons,
-        metadataBase: new URL("https://shoppagator.adityakhare.com"),
+        metadataBase: new URL("https://shoppagator.devvault.cloud"),
         ...(noIndex && {
             robots: {
                 index: false,

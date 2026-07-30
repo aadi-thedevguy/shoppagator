@@ -87,7 +87,7 @@ export function constructMetadata({
       creator: "@thedevguy.in",
     },
     icons,
-    metadataBase: new URL("https://shoppagator.thedevguy.in"),
+    metadataBase: new URL("https://shoppagator.devvault.cloud"),
     ...(noIndex && {
       robots: {
         index: false,

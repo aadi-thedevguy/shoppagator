@@ -28,7 +28,7 @@ const ResetEmail = ({ username, href }: Props) => {
       <Body style={main}>
         <Container style={container}>
           <Img
-            src="https://shoppagator.adityakhare.com/alligator-preview.png"
+            src="https://shoppagator.devvault.cloud/alligator-preview.png"
             width="80"
             height="80"
             alt="Shoppagator Mascot"

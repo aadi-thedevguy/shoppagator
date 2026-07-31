@@ -1,7 +1,4 @@
-FROM node:20-alpine AS deps
-
-# Install dependencies required for native modules
-RUN apk add --no-cache libc6-compat
+FROM node:20-slim AS deps
 
 # Enable corepack to use pnpm, which is the modern way
 RUN corepack enable
@@ -14,7 +11,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
 
-FROM node:20-alpine AS builder
+FROM node:20-slim AS builder
 
 WORKDIR /app
 
@@ -30,7 +27,7 @@ RUN corepack enable
 RUN pnpm run build
 
 
-FROM node:20-alpine AS runner
+FROM node:20-slim AS runner
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -39,10 +36,12 @@ ENV HOSTNAME="0.0.0.0"
 
 WORKDIR /app
 
-# Install libc6-compat for compatibility and create a non-root user for security
-RUN apk add --no-cache libc6-compat \
- && addgroup --system --gid 1001 nodejs \
- && adduser  --system --uid 1001 nextjs
+# Install libvips for sharp image processing and create a non-root user for security
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libvips-dev \
+ && rm -rf /var/lib/apt/lists/* \
+ && groupadd --system --gid 1001 nodejs \
+ && useradd  --system --uid 1001 --gid nodejs nextjs
 
 # .next/standalone contains server.js + a traced, minimal node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./

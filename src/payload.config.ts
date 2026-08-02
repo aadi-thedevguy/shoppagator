@@ -1,31 +1,29 @@
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { s3Storage } from '@payloadcms/storage-s3'
-import { resendAdapter } from '@payloadcms/email-resend'
+import { mongooseAdapter } from "@payloadcms/db-mongodb";
+import { s3Storage } from "@payloadcms/storage-s3";
+import { resendAdapter } from "@payloadcms/email-resend";
+import path from "path";
+import { buildConfig } from "payload";
+import { fileURLToPath } from "url";
 
-import sharp from 'sharp' // sharp-import
-import path from 'path'
-import { buildConfig } from 'payload'
-import { fileURLToPath } from 'url'
+import { Categories } from "./collections/Categories";
+import { Media } from "./collections/Media";
+import { Products } from "./collections/Products";
+import { ProductFiles } from "./collections/Products/ProductFile";
+import { Orders } from "./collections/Orders";
+import { Reviews } from "./collections/Reviews";
+import { Users } from "./collections/Users";
+import { Policy } from "./collections/Globals/Policy";
+import { plugins } from "./plugins";
+import { getServerSideURL } from "./utilities/getURL";
+import { defaultEditorConfig } from "./utilities/editor.config";
 
-import { Categories } from './collections/Categories'
-import { Media } from './collections/Media'
-import { Products } from './collections/Products'
-import { ProductFiles } from './collections/Products/ProductFile'
-import { Orders } from './collections/Orders'
-import { Reviews } from './collections/Reviews'
-import { Users } from './collections/Users'
-import { Policy } from './collections/Globals/Policy'
-import { plugins } from './plugins'
-import { getServerSideURL } from './utilities/getURL'
-import { defaultEditorConfig } from './utilities/editor.config'
-
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 export default buildConfig({
   email: resendAdapter({
-    defaultFromAddress: 'support@adityakhare.com',
-    defaultFromName: 'No Reply',
+    defaultFromAddress: "support@adityakhare.com",
+    defaultFromName: "No Reply",
     apiKey: process.env.RESEND_API_KEY!,
   }),
   admin: {
@@ -46,20 +44,25 @@ export default buildConfig({
     abortOnLimit: true,
     limits: {
       fileSize: 10 * 1024 * 1024, // 10 MB in bytes
-    }
+    },
   },
 
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultEditorConfig,
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
+    url: process.env.DATABASE_URI || "",
   }),
-  collections: [Media, Categories, Users, Products, ProductFiles, Orders, Reviews],
+  collections: [
+    Media,
+    Categories,
+    Users,
+    Products,
+    ProductFiles,
+    Orders,
+    Reviews,
+  ],
   cors: ["https://checkout.stripe.com", getServerSideURL()].filter(Boolean),
-  csrf: [
-    "https://checkout.stripe.com",
-    getServerSideURL(),
-  ].filter(Boolean),
+  csrf: ["https://checkout.stripe.com", getServerSideURL()].filter(Boolean),
   globals: [Policy],
   plugins: [
     ...plugins,
@@ -80,9 +83,8 @@ export default buildConfig({
       },
     }),
   ],
-  sharp,
   secret: process.env.PAYLOAD_SECRET,
   typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
+    outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-})
+});

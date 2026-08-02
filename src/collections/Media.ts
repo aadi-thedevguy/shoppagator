@@ -1,11 +1,11 @@
-import type { CollectionConfig } from 'payload'
-import { isAdminOrHasAccessToImages } from '@/access/hasImageAccess';
+import type { CollectionConfig } from "payload";
+import { isAdminOrHasAccessToImages } from "@/access/hasImageAccess";
 
 export const Media: CollectionConfig = {
-  slug: 'media',
+  slug: "media",
   access: {
     read: async ({ req }) => {
-      const referer = req.headers.get('referer');
+      const referer = req.headers.get("referer");
 
       if (!req.user || !referer?.includes("sell")) {
         return true;
@@ -28,8 +28,8 @@ export const Media: CollectionConfig = {
       },
     },
     {
-      name: 'alt',
-      type: 'text',
+      name: "alt",
+      type: "text",
       required: true,
     },
   ],
@@ -45,28 +45,8 @@ export const Media: CollectionConfig = {
   },
   upload: {
     staticDir: "media",
-    adminThumbnail: 'thumbnail',
+    adminThumbnail: "thumbnail",
     disableLocalStorage: true,
-    imageSizes: [
-      {
-        name: "thumbnail",
-        width: 400,
-        height: 300,
-        position: "centre",
-      },
-      {
-        name: "card",
-        width: 768,
-        height: 1024,
-        position: "centre",
-      },
-      {
-        name: "tablet",
-        width: 1024,
-        height: undefined,
-        position: "centre",
-      },
-    ],
     mimeTypes: ["image/*"],
-  }
-}
+  },
+};

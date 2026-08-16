@@ -13,9 +13,9 @@ import { toast } from 'sonner'
 import { redirect } from 'next/navigation'
 import { Textarea } from '../ui/textarea'
 import { ReviewValidator, TReviewValidator } from '@/validators/review-validator'
-import { useMutation } from '@tanstack/react-query'
 import { ZodError } from 'zod'
 import { createReview } from '@/server/reviews.server'
+import useSWRMutation from 'swr/mutation'
 
 const ReviewForm = ({ user, product }: { user: User; product: string }) => {
   const starValues = [1, 2, 3, 4, 5]
@@ -30,27 +30,30 @@ const ReviewForm = ({ user, product }: { user: User; product: string }) => {
     resolver: zodResolver(ReviewValidator),
   })
 
-  const { mutate, isPending: isLoading } = useMutation({
-    mutationFn: (data: TReviewValidator) => createReview(data),
-    onSuccess: () => {
-      toast.success('Thank You for your valuable Review')
-      reset()
-      redirect('/products')
+  const { trigger, isMutating: isLoading } = useSWRMutation(
+    'create-review',
+    async (_key: string, { arg }: { arg: TReviewValidator }) => createReview(arg),
+    {
+      onSuccess: () => {
+        toast.success('Thank You for your valuable Review')
+        reset()
+        redirect('/products')
+      },
+      onError: (err) => {
+        if (err instanceof ZodError) {
+          toast.error(err.issues[0].message)
+        }
+        if (err instanceof Error) {
+          toast.error(err.message)
+        } else {
+          toast.error('Failed to submit review, Try Again later')
+        }
+      },
     },
-    onError: (err) => {
-      if (err instanceof ZodError) {
-        toast.error(err.issues[0].message)
-      }
-      if (err instanceof Error) {
-        toast.error(err.message)
-      } else {
-        toast.error('Failed to submit review, Try Again later')
-      }
-    },
-  })
+  )
 
   const onSubmit = (data: TReviewValidator) => {
-    mutate(data)
+    void trigger(data)
   }
 
   return (

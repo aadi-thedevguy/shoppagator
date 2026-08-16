@@ -5,19 +5,21 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { buttonVariants } from './ui/button'
 import { verifyEmail } from '@/server/auth.server'
-import { useQuery } from '@tanstack/react-query'
+import useSWR from 'swr'
 
 interface VerifyEmailProps {
   token: string
 }
 
 const VerifyEmail = ({ token }: VerifyEmailProps) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['verify-email', token],
-    queryFn: async () => await verifyEmail({ token }),
-    retry: false, // Don't retry on failure; tokens are single-use
-    enabled: !!token,
-  })
+  const { data, isLoading, error } = useSWR(
+    token ? ['verify-email', token] : null,
+    async () => await verifyEmail({ token }),
+    {
+      shouldRetryOnError: false, // Don't retry on failure; tokens are single-use
+      revalidateOnFocus: false,
+    },
+  )
 
   if (isLoading) {
     return (
@@ -44,7 +46,7 @@ const VerifyEmail = ({ token }: VerifyEmailProps) => {
     )
   }
 
-  if (isError) {
+  if (error) {
     return (
       <div className="flex flex-col items-center gap-2 text-center">
         <XCircle className="h-8 w-8 text-red-600" />

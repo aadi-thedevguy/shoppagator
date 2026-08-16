@@ -20,7 +20,7 @@ const FALLBACK_LIMIT = 4
 const ProductReel = (props: ProductReelProps) => {
   const { title, subtitle, href, query } = props
 
-  const { data: queryResults, isLoading } = useSWRInfinite(
+  const { data: queryResults, error } = useSWRInfinite(
     (pageIndex, previousPageData) => {
       if (previousPageData && !previousPageData.nextPage) return null
       return ['products', query, previousPageData?.nextPage ?? 1] as const
@@ -29,6 +29,9 @@ const ProductReel = (props: ProductReelProps) => {
   )
 
   const products = queryResults?.flatMap((page) => page.items)
+  // SWR is paused during SSR, so `isLoading` is false with no data. Treat
+  // unresolved data as loading to keep the skeleton until the client fetch.
+  const isLoading = queryResults === undefined && !error
 
   let map: (Product | null)[] = []
   if (products && products.length) {

@@ -7,8 +7,10 @@ import Stripe from "stripe";
 import { getStripe } from "./stripe";
 
 export async function createCheckoutSession(input: { productIds: string[] }) {
-    await getMeUser({ nullUserRedirect: "/sign-in" });
-    const { user } = await getMeUser();
+    const { user } = await getMeUser({ nullUserRedirect: "/sign-in" });
+    if (!user) {
+        throw new Error("UNAUTHORIZED");
+    }
 
     if (input.productIds.length === 0) {
         throw new Error("BAD_REQUEST");

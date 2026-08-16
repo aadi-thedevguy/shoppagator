@@ -12,7 +12,7 @@ interface VerifyEmailProps {
 }
 
 const VerifyEmail = ({ token }: VerifyEmailProps) => {
-  const { data, isLoading, error } = useSWR(
+  const { data, error } = useSWR(
     token ? ['verify-email', token] : null,
     async () => await verifyEmail({ token }),
     {
@@ -20,6 +20,8 @@ const VerifyEmail = ({ token }: VerifyEmailProps) => {
       revalidateOnFocus: false,
     },
   )
+
+  const isLoading = Boolean(token) && !data && !error
 
   if (isLoading) {
     return (

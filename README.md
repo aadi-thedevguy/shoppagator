@@ -18,6 +18,6 @@ _The v2 of this video is inspired by this [video](https://www.youtube.com/watch?
 
 # Tech Stack 🔨
 1.  NextJS 15 with App Router and React 19 with TypeScript.
-2.  The big Three of every react project: [Zod](https://zod.dev/), [React hook form](https://react-hook-form.com/) and [Tanstack Query](https://tanstack.com/query/latest).
+2.  The big Three of every react project: [Zod](https://zod.dev/), [React hook form](https://react-hook-form.com/) and [SWR](https://swr.vercel.app/).
 3.  Material UI/ Ant Design ❌, [Shadcn UI](https://ui.shadcn.com/) ✅.
 4.  Found the perfect CMS [(Payload)](https://payloadcms.com/docs/getting-started/what-is-payload) for NextJS.

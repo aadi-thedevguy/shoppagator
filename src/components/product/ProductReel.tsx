@@ -4,9 +4,9 @@ import { TQueryValidator } from '@/validators/query-validator'
 import { Product } from '@/payload-types'
 import Link from 'next/link'
 import ProductListing from './ProductListing'
-import { useInfiniteQuery } from '@tanstack/react-query'
 import { getInfiniteProducts } from '@/server/queries.server'
 import { buttonVariants } from '../ui/button'
+import useSWRInfinite from 'swr/infinite'
 
 interface ProductReelProps {
   title: string
@@ -20,19 +20,18 @@ const FALLBACK_LIMIT = 4
 const ProductReel = (props: ProductReelProps) => {
   const { title, subtitle, href, query } = props
 
-  const { data: queryResults, isLoading } = useInfiniteQuery({
-    queryKey: ['products', query],
-    queryFn: async () => {
-      return await getInfiniteProducts({
-        query,
-      })
+  const { data: queryResults, error } = useSWRInfinite(
+    (pageIndex, previousPageData) => {
+      if (previousPageData && !previousPageData.nextPage) return null
+      return ['products', query, previousPageData?.nextPage ?? 1] as const
     },
-    // initialData: { pages: [sketches], pageParams: [1] },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage.nextPage,
-  })
+    ([, pageQuery, cursor]) => getInfiniteProducts({ query: pageQuery, cursor }),
+  )
 
-  const products = queryResults?.pages.flatMap((page) => page.items)
+  const products = queryResults?.flatMap((page) => page.items)
+  // SWR is paused during SSR, so `isLoading` is false with no data. Treat
+  // unresolved data as loading to keep the skeleton until the client fetch.
+  const isLoading = queryResults === undefined && !error
 
   let map: (Product | null)[] = []
   if (products && products.length) {

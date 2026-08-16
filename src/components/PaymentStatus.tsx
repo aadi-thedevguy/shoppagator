@@ -1,9 +1,9 @@
 'use client'
 
 import { pollOrderStatus } from '@/server/payment.server'
-import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import useSWR from 'swr'
 
 interface PaymentStatusProps {
   orderEmail: string
@@ -14,12 +14,13 @@ interface PaymentStatusProps {
 const PaymentStatus = ({ orderEmail, orderId, isPaid }: PaymentStatusProps) => {
   const router = useRouter()
 
-  const { data } = useQuery({
-    queryKey: ['orderStatus', orderId],
-    queryFn: async () => await pollOrderStatus({ orderId }),
-    enabled: isPaid === false,
-    refetchInterval: () => (isPaid ? false : 1000),
-  })
+  const { data } = useSWR(
+    isPaid === false ? ['orderStatus', orderId] : null,
+    async () => await pollOrderStatus({ orderId }),
+    {
+      refreshInterval: isPaid ? 0 : 1000,
+    },
+  )
 
   useEffect(() => {
     if (data?.isPaid) router.refresh()

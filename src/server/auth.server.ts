@@ -9,6 +9,7 @@ import {
 } from '@/validators/account-credentials-validator'
 import { getPayload } from 'payload'
 import { convertZodErrors } from '@/utilities/formatZodErrors'
+import { login as payloadLogin, logout as payloadLogout } from '@payloadcms/next/auth'
 
 export const signUp = async (input: unknown) => {
   const validated = AuthCredentialsValidator.safeParse(input)
@@ -88,15 +89,16 @@ export const signIn = async (input: unknown) => {
   }
 
   const { email, password } = validated.data
-  const payload = await getPayload({ config: configPromise })
 
   try {
-    await payload.login({
+    // Local API login does not set cookies. Use Payload's Next.js helper so the
+    // httpOnly `payload-token` cookie is written on the Server Action response.
+    // https://payloadcms.com/docs/authentication/operations
+    await payloadLogin({
       collection: 'users',
-      data: {
-        email,
-        password,
-      },
+      config: configPromise,
+      email,
+      password,
     })
 
     return { success: true, message: 'Successfully logged in', errors: {} }
@@ -114,6 +116,10 @@ export const signIn = async (input: unknown) => {
       errors: {},
     }
   }
+}
+
+export const signOut = async () => {
+  return payloadLogout({ config: configPromise })
 }
 
 export const verifyEmail = async (input: unknown) => {

@@ -61,6 +61,7 @@ export default buildConfig({
     Orders,
     Reviews,
   ],
+  serverURL: getServerSideURL(),
   cors: ["https://checkout.stripe.com", getServerSideURL()].filter(Boolean),
   csrf: ["https://checkout.stripe.com", getServerSideURL()].filter(Boolean),
   globals: [Policy],

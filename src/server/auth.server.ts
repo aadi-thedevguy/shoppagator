@@ -7,8 +7,11 @@ import {
   forgotValidator,
   resetValidator,
 } from '@/validators/account-credentials-validator'
-import { getPayload } from 'payload'
+import { cookies, headers } from 'next/headers'
+import { revalidatePath } from 'next/cache'
+import { createLocalReq, getPayload, logoutOperation } from 'payload'
 import { convertZodErrors } from '@/utilities/formatZodErrors'
+import { login as payloadLogin } from '@payloadcms/next/auth'
 
 export const signUp = async (input: unknown) => {
   const validated = AuthCredentialsValidator.safeParse(input)
@@ -88,15 +91,16 @@ export const signIn = async (input: unknown) => {
   }
 
   const { email, password } = validated.data
-  const payload = await getPayload({ config: configPromise })
 
   try {
-    await payload.login({
+    // Local API login does not set cookies. Use Payload's Next.js helper so the
+    // httpOnly `payload-token` cookie is written on the Server Action response.
+    // https://payloadcms.com/docs/authentication/operations
+    await payloadLogin({
       collection: 'users',
-      data: {
-        email,
-        password,
-      },
+      config: configPromise,
+      email,
+      password,
     })
 
     return { success: true, message: 'Successfully logged in', errors: {} }
@@ -114,6 +118,67 @@ export const signIn = async (input: unknown) => {
       errors: {},
     }
   }
+}
+
+export const signOut = async () => {
+  const payload = await getPayload({ config: configPromise })
+  const cookieStore = await cookies()
+  const cookieName = `${payload.config.cookiePrefix}-token`
+  const token = cookieStore.get(cookieName)?.value
+  const authConfig = payload.collections.users.config.auth
+  const cookieOptions: {
+    httpOnly: boolean
+    path: string
+    sameSite: 'lax' | 'none' | 'strict'
+    secure: boolean
+    domain?: string
+  } = {
+    httpOnly: true,
+    path: '/',
+    sameSite: (typeof authConfig.cookies.sameSite === 'string'
+      ? authConfig.cookies.sameSite.toLowerCase()
+      : 'lax') as 'lax' | 'none' | 'strict',
+    secure: authConfig.cookies.secure || false,
+  }
+  if (authConfig.cookies.domain) {
+    cookieOptions.domain = authConfig.cookies.domain
+  }
+
+  try {
+    if (token) {
+      // Same JWT header strategy as getMeUser — cookie-only auth is CSRF-gated
+      // and often returns user: null, which made the Next logout helper exit
+      // early with "already logged out" without deleting the cookie.
+      const requestHeaders = new Headers(await headers())
+      requestHeaders.set('Authorization', `JWT ${token}`)
+      const { user } = await payload.auth({
+        headers: requestHeaders,
+        canSetHeaders: false,
+      })
+
+      if (user?.collection) {
+        const req = await createLocalReq({ user }, payload)
+        const collection = payload.collections[user.collection]
+        if (collection) {
+          await logoutOperation({ allSessions: false, collection, req })
+        }
+      }
+    }
+  } finally {
+    cookieStore.set(cookieName, '', {
+      ...cookieOptions,
+      expires: new Date(0),
+      maxAge: 0,
+    })
+    cookieStore.delete({
+      name: cookieName,
+      path: cookieOptions.path,
+      domain: cookieOptions.domain,
+    })
+    revalidatePath('/', 'layout')
+  }
+
+  return { success: true, message: 'User logged out successfully' }
 }
 
 export const verifyEmail = async (input: unknown) => {

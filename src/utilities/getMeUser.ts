@@ -13,20 +13,25 @@ export const getMeUser = async (args?: {
   user: User | null
 }> => {
   const { nullUserRedirect, validUserRedirect } = args || {}
+  const payload = await getPayload({ config: configPromise })
   const cookieStore = await cookies()
-  const token = cookieStore.get('payload-token')?.value
+  const token = cookieStore.get(`${payload.config.cookiePrefix}-token`)?.value
 
-  // Auth locally instead of HTTP-fetching `/api/users/me`. A self-fetch during
-  // SSR/build often returns an HTML document (404/error page), which then fails
-  // with: Unexpected token '<', "<!DOCTYPE "... is not valid JSON.
-  let user: User | null = null
-  try {
-    const payload = await getPayload({ config: configPromise })
-    const { user: authUser } = await payload.auth({ headers: await headers() })
-    user = (authUser as User | null) ?? null
-  } catch {
-    user = null
+  // Authenticate locally (no HTTP self-fetch to /api/users/me).
+  // Cookie extraction in payload.auth() applies CSRF checks against Origin /
+  // Sec-Fetch-Site. RSC and reverse-proxy requests often fail that check, so
+  // also pass the token as `Authorization: JWT …` — the same strategy the
+  // previous /me fetch used, and JWT is first in Payload's default jwtOrder.
+  const requestHeaders = new Headers(await headers())
+  if (token) {
+    requestHeaders.set('Authorization', `JWT ${token}`)
   }
+
+  const { user: authUser } = await payload.auth({
+    headers: requestHeaders,
+    canSetHeaders: false,
+  })
+  const user = (authUser as User | null) ?? null
 
   if (validUserRedirect && user) {
     redirect(validUserRedirect)
